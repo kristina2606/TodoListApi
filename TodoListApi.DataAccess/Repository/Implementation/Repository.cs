@@ -16,7 +16,7 @@ namespace TodoListApi.Repository.Implementation
             _db.Set<T>().Add(entity);
         }
 
-        public T Get(Expression<Func<T, bool>> filter, bool tracked = false)
+        public T Get(Expression<Func<T, bool>> filter, bool tracked = true)
         {
             IQueryable<T> query;
 
@@ -32,8 +32,13 @@ namespace TodoListApi.Repository.Implementation
             return query.Where(filter).FirstOrDefault();
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter)
         {
+            if (filter != null)
+            {
+                return _db.Set<T>().Where(filter);
+            }
+
             return _db.Set<T>().ToList();
         }
 

@@ -15,5 +15,6 @@ namespace TodoListApi.Models
         public Status Status { get; set; }
         [Required]
         public DateTime CreatedDate { get; set; }
+        public int UserId { get; set; }
     }
 }

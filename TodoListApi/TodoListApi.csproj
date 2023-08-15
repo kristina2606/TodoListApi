@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TodoListApi.Application\TodoListApi.Application.csproj" />
     <ProjectReference Include="..\TodoListApi.DataAccess\TodoListApi.DataAccess.csproj" />
   </ItemGroup>
 
