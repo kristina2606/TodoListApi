@@ -1,4 +1,4 @@
-﻿namespace TodoList.Models
+﻿namespace TodoList.Application.Models
 {
     public class UpdateTodoCommand
     {

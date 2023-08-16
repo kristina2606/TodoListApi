@@ -1,4 +1,5 @@
-﻿using TodoList.Enum;
+﻿using TodoList.Application.Models;
+using TodoList.Enum;
 using TodoList.Models;
 
 namespace TodoList.Application.Services
