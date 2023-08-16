@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TodoList.Application;
+using TodoList.Application.Exceptions;
 using TodoList.Application.Services;
 using TodoList.Application.Services.Implementation;
 using TodoList.Data;
@@ -15,10 +16,11 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddScoped<ICurrentUser, CurrentUserProvider>();
 builder.Services.AddTransient<ITodoService, TodoService>();
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.Filters.Add<GlobalExceptionFilter>());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 
 var app = builder.Build();
 
