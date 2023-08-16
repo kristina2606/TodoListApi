@@ -18,6 +18,7 @@ namespace TodoList.Application.Exceptions
                     Detail = notFoundException.Message,
                     Instance = context.HttpContext.Request.Path
                 });
+
                 context.ExceptionHandled = true;
             }
         }
