@@ -1,4 +1,5 @@
 ﻿using TodoList.Application.Exeptions;
+using TodoList.Application.Models;
 using TodoList.Enum;
 using TodoList.Models;
 using TodoList.Repository;
@@ -19,10 +20,7 @@ namespace TodoList.Application.Services.Implementation
         }
         public int Create(Todo todo)
         {
-            if (todo == null)
-            {
-                throw new ArgumentNullException(nameof(todo));
-            }
+            ArgumentNullException.ThrowIfNull(todo);
 
             var newTodo = new Todo
             {
@@ -46,6 +44,7 @@ namespace TodoList.Application.Services.Implementation
             {
                 throw new NotFoundException($"Todo with id {id} not found.");
             }
+
             _todoRepository.Remove(todo);
             _unitOfWork.SaveChanges();
         }
@@ -57,6 +56,7 @@ namespace TodoList.Application.Services.Implementation
             {
                 throw new NotFoundException($"Todo with id {id} not found.");
             }
+
             return todo;
         }
 

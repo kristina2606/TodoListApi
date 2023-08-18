@@ -13,27 +13,27 @@ namespace TodoList.Repository.Implementation
         }
         public void Add(Todo todo)
         {
-            _db.Set<Todo>().Add(todo);
+            _db.Todos.Add(todo);
         }
 
         public Todo Get(int todoId)
         {
-            return _db.Set<Todo>().FirstOrDefault(x => x.Id == todoId);
+            return _db.Todos.FirstOrDefault(x => x.Id == todoId);
         }
 
         public IEnumerable<Todo> GetAll(int userId)
         {
-            return _db.Set<Todo>().Where(x => x.UserId == userId);
+            return _db.Todos.Where(x => x.UserId == userId);
         }
 
         public void Remove(Todo todo)
         {
-            _db.Set<Todo>().Remove(todo);
+            _db.Todos.Remove(todo);
         }
 
         public void Update(Todo todo)
         {
-            _db.Set<Todo>().Update(todo);
+            _db.Todos.Update(todo);
         }
     }
 }
