@@ -1,4 +1,5 @@
-﻿using TodoList.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using TodoList.Data;
 using TodoList.Models;
 
 namespace TodoList.Repository.Implementation
@@ -11,29 +12,33 @@ namespace TodoList.Repository.Implementation
         {
             _db = db;
         }
-        public void Add(Todo todo)
+
+        public async Task AddAsync(Todo todo)
         {
-            _db.Todos.Add(todo);
+            await _db.Todos.AddAsync(todo);
+            await _db.SaveChangesAsync();
         }
 
-        public Todo Get(int todoId)
+        public async Task<IEnumerable<Todo>> GetAllAsync(int userId)
         {
-            return _db.Todos.FirstOrDefault(x => x.Id == todoId);
+            return await _db.Todos.Where(x => x.UserId == userId).ToListAsync();
         }
 
-        public IEnumerable<Todo> GetAll(int userId)
+        public async Task<Todo> GetAsync(int todoId)
         {
-            return _db.Todos.Where(x => x.UserId == userId);
+            return await _db.Todos.FirstOrDefaultAsync(x => x.Id == todoId);
         }
 
-        public void Remove(Todo todo)
+        public async Task RemoveAsync(Todo todo)
         {
             _db.Todos.Remove(todo);
+            await _db.SaveChangesAsync();
         }
 
-        public void Update(Todo todo)
+        public async Task UpdateAsync(Todo todo)
         {
             _db.Todos.Update(todo);
+            await _db.SaveChangesAsync();
         }
     }
 }
