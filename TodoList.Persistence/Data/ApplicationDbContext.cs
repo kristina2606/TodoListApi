@@ -25,6 +25,5 @@ namespace TodoList.Data
                 new Todo { Id = 6, Title = "Lunch Break", Description = "Take a break and have lunch. Consider healthy eating, including vegetables, proteins, and healthy fats.", Status = Enum.Status.Todo, CreatedDate = DateTime.Now.AddDays(-3), UserId = 9 }
                 );
         }
-
     }
 }

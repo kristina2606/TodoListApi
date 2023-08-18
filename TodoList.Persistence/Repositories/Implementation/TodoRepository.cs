@@ -1,7 +1,7 @@
 ﻿using TodoList.Data;
 using TodoList.Models;
 
-namespace TodoList.Repository.Implementation
+namespace TodoList.Repositories.Implementation
 {
     public class TodoRepository : ITodoRepository
     {

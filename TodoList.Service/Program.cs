@@ -4,8 +4,8 @@ using TodoList.Application.Exceptions.Middleware;
 using TodoList.Application.Services;
 using TodoList.Application.Services.Implementation;
 using TodoList.Data;
-using TodoList.Repository;
-using TodoList.Repository.Implementation;
+using TodoList.Repositories;
+using TodoList.Repositories.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 

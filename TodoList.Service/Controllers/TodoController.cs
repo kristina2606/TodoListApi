@@ -28,9 +28,9 @@ namespace TodoList.Controllers
         [HttpGet("{id:int}")]
         public ActionResult<Todo> GetTodo(int id)
         {
-                var todo = _todoService.GetTodo(id);
-                return Ok(todo);
-            }
+            var todo = _todoService.GetTodo(id);
+            return Ok(todo);
+        }
 
         [HttpPost]
         public ActionResult Create([FromBody] Todo todo)
@@ -48,9 +48,9 @@ namespace TodoList.Controllers
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-                _todoService.Delete(id);
-                return NoContent();
-            }
+            _todoService.Delete(id);
+            return NoContent();
+        }
 
         [HttpPut("{id:int}")]
         public ActionResult Update(int id, UpdateTodoCommand todo)
@@ -59,16 +59,16 @@ namespace TodoList.Controllers
             {
                 return BadRequest();
             }
-                _todoService.Update(todo);
-                return NoContent();
-            }
+            _todoService.Update(todo);
+            return NoContent();
+        }
 
 
         [HttpPatch("{id:int}/status")]
         public IActionResult UpdateStatus(int id, Status newStatus)
         {
-                _todoService.Update(id, newStatus);
-                return NoContent();
-            }
+            _todoService.Update(id, newStatus);
+            return NoContent();
+        }
     }
 }

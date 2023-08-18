@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TodoList.Persistence\TodoList.Persistence.csproj" />
     <ProjectReference Include="..\TodoList.Models\TodoList.Models.csproj" />
   </ItemGroup>
 

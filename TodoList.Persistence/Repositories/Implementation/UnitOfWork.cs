@@ -1,6 +1,6 @@
 ﻿using TodoList.Data;
 
-namespace TodoList.Repository.Implementation
+namespace TodoList.Repositories.Implementation
 {
     public class UnitOfWork : IUnitOfWork
     {
