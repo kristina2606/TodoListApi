@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TodoList.Application.Exeptions;
 using TodoList.Application.Models;
 using TodoList.Application.Services;
-using TodoList.Enum;
 using TodoList.Models;
+using TodoList.Models.Enum;
 
-namespace TodoList.Controllers
+namespace TodoList.Service.Controllers
 {
     [Route("api/todos")]
     [ApiController]

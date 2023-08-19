@@ -1,6 +1,7 @@
-﻿using TodoList.Data;
+﻿using TodoList.Application.Repositories;
+using TodoList.Persistence.Data;
 
-namespace TodoList.Repositories.Implementation
+namespace TodoList.Persistence.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {

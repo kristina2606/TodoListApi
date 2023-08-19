@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TodoList.Application.Exeptions;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace TodoList.Application.Exceptions.Middleware
+namespace TodoList.Service.Middleware
 {
     public class GlobalExceptionMiddleware
     {
@@ -32,7 +31,7 @@ namespace TodoList.Application.Exceptions.Middleware
 
             var problemDetails = new ProblemDetails
             {
-                Type = "https://example.com/errors/not-found",
+                Type = "about:blank",
                 Title = "Todo not found",
                 Status = StatusCodes.Status404NotFound,
                 Detail = ex.Message,

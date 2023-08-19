@@ -1,4 +1,4 @@
-﻿namespace TodoList.Repositories
+﻿namespace TodoList.Application.Repositories
 {
     public interface IUnitOfWork
     {

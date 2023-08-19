@@ -1,7 +1,8 @@
-﻿using TodoList.Data;
+﻿using TodoList.Application.Repositories;
 using TodoList.Models;
+using TodoList.Persistence.Data;
 
-namespace TodoList.Repositories.Implementation
+namespace TodoList.Persistence.Repositories
 {
     public class TodoRepository : ITodoRepository
     {
