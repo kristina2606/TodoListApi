@@ -1,8 +1,8 @@
 ﻿using TodoList.Application.Exeptions;
 using TodoList.Application.Models;
-using TodoList.Enum;
+using TodoList.Application.Repositories;
 using TodoList.Models;
-using TodoList.Repository;
+using TodoList.Models.Enum;
 
 namespace TodoList.Application.Services.Implementation
 {

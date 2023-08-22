@@ -1,10 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using TodoList.Application;
+using TodoList.Application.Repositories;
 using TodoList.Application.Services;
 using TodoList.Application.Services.Implementation;
-using TodoList.Data;
-using TodoList.Repository;
-using TodoList.Repository.Implementation;
+using TodoList.Persistence.Data;
+using TodoList.Persistence.Repositories;
+using TodoList.Service.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,9 +21,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+var app = builder.Build();
+app.UseMiddleware<GlobalExceptionMiddleware>();
+ // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

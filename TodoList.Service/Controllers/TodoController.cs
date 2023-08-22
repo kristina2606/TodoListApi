@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TodoList.Application.Exeptions;
 using TodoList.Application.Models;
 using TodoList.Application.Services;
-using TodoList.Enum;
 using TodoList.Models;
+using TodoList.Models.Enum;
 
-namespace TodoList.Controllers
+namespace TodoList.Service.Controllers
 {
     [Route("api/todos")]
     [ApiController]
@@ -28,15 +27,8 @@ namespace TodoList.Controllers
         [HttpGet("{id:int}")]
         public ActionResult<Todo> GetTodo(int id)
         {
-            try
-            {
-                var todo = _todoService.GetTodo(id);
-                return Ok(todo);
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            var todo = _todoService.GetTodo(id);
+            return Ok(todo);
         }
 
         [HttpPost]
@@ -55,15 +47,8 @@ namespace TodoList.Controllers
         [HttpDelete("{id:int}")]
         public ActionResult Delete(int id)
         {
-            try
-            {
-                _todoService.Delete(id);
-                return NoContent();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            _todoService.Delete(id);
+            return NoContent();
         }
 
         [HttpPut("{id:int}")]
@@ -73,30 +58,16 @@ namespace TodoList.Controllers
             {
                 return BadRequest();
             }
-            try
-            {
-                _todoService.Update(todo);
-                return NoContent();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            _todoService.Update(todo);
+            return NoContent();
         }
 
 
         [HttpPatch("{id:int}/status")]
         public IActionResult UpdateStatus(int id, Status newStatus)
         {
-            try
-            {
-                _todoService.Update(id, newStatus);
-                return NoContent();
-            }
-            catch (NotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            _todoService.Update(id, newStatus);
+            return NoContent();
         }
     }
 }

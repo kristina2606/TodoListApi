@@ -1,4 +1,4 @@
-﻿namespace TodoList.Enum
+﻿namespace TodoList.Models.Enum
 {
     public enum Status
     {
