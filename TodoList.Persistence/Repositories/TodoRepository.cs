@@ -29,12 +29,12 @@ namespace TodoList.Persistence.Repositories
             return await _db.Todos.FirstOrDefaultAsync(x => x.Id == todoId);
         }
 
-        public void Remove(Todo todo)
+        public async Task RemoveAsync(Todo todo)
         {
             _db.Todos.Remove(todo);
         }
 
-        public void Update(Todo todo)
+        public async Task UpdateAsync(Todo todo)
         {
             _db.Todos.Update(todo);
         }

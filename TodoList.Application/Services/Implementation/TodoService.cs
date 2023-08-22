@@ -46,7 +46,7 @@ namespace TodoList.Application.Services.Implementation
                 throw new NotFoundException($"Todo with id {id} not found.");
             }
 
-            _todoRepository.Remove(todo);
+            await _todoRepository.RemoveAsync(todo);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -77,7 +77,7 @@ namespace TodoList.Application.Services.Implementation
             todoFromDb.Title = todo.Title;
             todoFromDb.Description = todo.Description;
 
-            _todoRepository.Update(todoFromDb);
+            await _todoRepository.UpdateAsync(todoFromDb);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -91,7 +91,7 @@ namespace TodoList.Application.Services.Implementation
 
             todo.Status = status;
 
-            _todoRepository.Update(todo);
+            await _todoRepository.UpdateAsync(todo);
             await _unitOfWork.SaveChangesAsync();
         }
     }
