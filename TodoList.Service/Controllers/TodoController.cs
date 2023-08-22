@@ -57,6 +57,7 @@ namespace TodoList.Service.Controllers
             {
                 return BadRequest();
             }
+
             await _todoService.UpdateAsync(todo);
             return NoContent();
         }

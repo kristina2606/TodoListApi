@@ -8,13 +8,15 @@ namespace TodoList.Application.Services.Implementation
 {
     public class TodoService : ITodoService
     {
+        private readonly IUnitOfWork _unitOfWork;
         private readonly ITodoRepository _todoRepository;
         private readonly ICurrentUser _currentUser;
 
-        public TodoService(ITodoRepository todoRepository, ICurrentUser currentUser)
+        public TodoService(ITodoRepository todoRepository, ICurrentUser currentUser, IUnitOfWork unitOfWork)
         {
             _todoRepository = todoRepository;
             _currentUser = currentUser;
+            _unitOfWork = unitOfWork;
         }
         public async Task<int> CreateAsync(Todo todo)
         {
@@ -31,6 +33,8 @@ namespace TodoList.Application.Services.Implementation
             };
 
             await _todoRepository.AddAsync(newTodo);
+            await _unitOfWork.SaveChangesAsync();
+
             return newTodo.Id;
         }
 
@@ -42,7 +46,8 @@ namespace TodoList.Application.Services.Implementation
                 throw new NotFoundException($"Todo with id {id} not found.");
             }
 
-            await _todoRepository.RemoveAsync(todo);
+            _todoRepository.Remove(todo);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<Todo> GetTodoAsync(int id)
@@ -72,7 +77,8 @@ namespace TodoList.Application.Services.Implementation
             todoFromDb.Title = todo.Title;
             todoFromDb.Description = todo.Description;
 
-            await _todoRepository.UpdateAsync(todoFromDb);
+            _todoRepository.Update(todoFromDb);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(int id, Status status)
@@ -85,7 +91,8 @@ namespace TodoList.Application.Services.Implementation
 
             todo.Status = status;
 
-            await _todoRepository.UpdateAsync(todo);
+            _todoRepository.Update(todo);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

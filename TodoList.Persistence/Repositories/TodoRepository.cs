@@ -17,7 +17,6 @@ namespace TodoList.Persistence.Repositories
         public async Task AddAsync(Todo todo)
         {
             await _db.Todos.AddAsync(todo);
-            await _db.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Todo>> GetAllAsync(int userId)
@@ -30,16 +29,14 @@ namespace TodoList.Persistence.Repositories
             return await _db.Todos.FirstOrDefaultAsync(x => x.Id == todoId);
         }
 
-        public async Task RemoveAsync(Todo todo)
+        public void Remove(Todo todo)
         {
             _db.Todos.Remove(todo);
-            await _db.SaveChangesAsync();
         }
 
-        public async Task UpdateAsync(Todo todo)
+        public void Update(Todo todo)
         {
             _db.Todos.Update(todo);
-            await _db.SaveChangesAsync();
         }
     }
 }
