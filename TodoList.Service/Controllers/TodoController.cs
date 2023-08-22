@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TodoList.Application.Models;
 using TodoList.Application.Services;
-using TodoList.Enum;
 using TodoList.Models;
+using TodoList.Models.Enum;
 
-namespace TodoList.Controllers
+namespace TodoList.Service.Controllers
 {
     [Route("api/todos")]
     [ApiController]
@@ -17,14 +17,14 @@ namespace TodoList.Controllers
             _todoService = todoService;
         }
 
-        [HttpGet(Name = "GetTodos")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<Todo>>> GetTodosAsync()
         {
             var todo = await _todoService.GetTodosAsync();
             return Ok(todo);
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name = "GetTodo")]
         public async Task<ActionResult<Todo>> GetTodoAsync(int id)
         {
             var todo = await _todoService.GetTodoAsync(id);
@@ -40,8 +40,7 @@ namespace TodoList.Controllers
             }
 
             var newTodoId = await _todoService.CreateAsync(todo);
-
-            return CreatedAtAction(nameof(GetTodoAsync), new { id = newTodoId }, todo);
+            return CreatedAtAction("GetTodo", new {id = newTodoId}, todo);
         }
 
         [HttpDelete("{id:int}")]

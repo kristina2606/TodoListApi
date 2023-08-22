@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using TodoList.Application;
-using TodoList.Application.Exceptions.Middleware;
+using TodoList.Application.Repositories;
 using TodoList.Application.Services;
 using TodoList.Application.Services.Implementation;
-using TodoList.Data;
-using TodoList.Repository;
-using TodoList.Repository.Implementation;
+using TodoList.Persistence.Data;
+using TodoList.Persistence.Repositories;
+using TodoList.Service.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 

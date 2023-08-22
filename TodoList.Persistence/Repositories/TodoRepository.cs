@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TodoList.Data;
+using TodoList.Application.Repositories;
 using TodoList.Models;
+using TodoList.Persistence.Data;
 
-namespace TodoList.Repository.Implementation
+namespace TodoList.Persistence.Repositories
 {
     public class TodoRepository : ITodoRepository
     {
