@@ -32,7 +32,7 @@ namespace TodoList.Service.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync([FromBody] Todo todo)
+        public async Task<ActionResult> CreateAsync([FromBody] UpdateTodoCommand todo)
         {
             if (todo == null)
             {

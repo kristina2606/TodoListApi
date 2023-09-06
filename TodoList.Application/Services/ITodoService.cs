@@ -9,7 +9,7 @@ namespace TodoList.Application.Services
         Task<IEnumerable<Todo>> GetTodosAsync();
         Task<Todo> GetTodoAsync(int id);
         Task DeleteAsync(int id);
-        Task<int> CreateAsync(Todo todo);
+        Task<int> CreateAsync(UpdateTodoCommand todo);
         Task UpdateAsync(UpdateTodoCommand todo);
         Task UpdateAsync(int id, Status status);
     }

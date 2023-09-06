@@ -18,7 +18,7 @@ namespace TodoList.Application.Services.Implementation
             _currentUser = currentUser;
             _unitOfWork = unitOfWork;
         }
-        public async Task<int> CreateAsync(Todo todo)
+        public async Task<int> CreateAsync(UpdateTodoCommand todo)
         {
             ArgumentNullException.ThrowIfNull(todo);
 
@@ -27,7 +27,7 @@ namespace TodoList.Application.Services.Implementation
                 Id = todo.Id,
                 Title = todo.Title,
                 Description = todo.Description,
-                Status = todo.Status,
+                Status = Status.Todo,
                 UserId = _currentUser.Id,
                 CreatedDate = DateTime.UtcNow
             };
