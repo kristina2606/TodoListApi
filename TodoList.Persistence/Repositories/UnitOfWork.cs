@@ -12,9 +12,10 @@ namespace TodoList.Persistence.Repositories
             _db = db;
         }
 
-        public void SaveChanges()
+        public async Task SaveChangesAsync()
         {
-            _db.SaveChanges();
+            await _db.SaveChangesAsync();
         }
     }
 }
+

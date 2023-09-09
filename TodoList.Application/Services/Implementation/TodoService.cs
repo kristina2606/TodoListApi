@@ -12,13 +12,13 @@ namespace TodoList.Application.Services.Implementation
         private readonly ITodoRepository _todoRepository;
         private readonly ICurrentUser _currentUser;
 
-        public TodoService(IUnitOfWork unitOfWork, ITodoRepository todoRepository, ICurrentUser currentUser)
+        public TodoService(ITodoRepository todoRepository, ICurrentUser currentUser, IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
             _todoRepository = todoRepository;
             _currentUser = currentUser;
+            _unitOfWork = unitOfWork;
         }
-        public int Create(Todo todo)
+        public async Task<int> CreateAsync(Todo todo)
         {
             ArgumentNullException.ThrowIfNull(todo);
 
@@ -32,26 +32,27 @@ namespace TodoList.Application.Services.Implementation
                 CreatedDate = DateTime.UtcNow
             };
 
-            _todoRepository.Add(newTodo);
-            _unitOfWork.SaveChanges();
+            await _todoRepository.AddAsync(newTodo);
+            await _unitOfWork.SaveChangesAsync();
+
             return newTodo.Id;
         }
 
-        public void Delete(int id)
+        public async Task DeleteAsync(int id)
         {
-            var todo = _todoRepository.Get(id);
+            var todo = await _todoRepository.GetAsync(id);
             if (todo == null || todo.UserId != _currentUser.Id)
             {
                 throw new NotFoundException($"Todo with id {id} not found.");
             }
 
-            _todoRepository.Remove(todo);
-            _unitOfWork.SaveChanges();
+            await _todoRepository.RemoveAsync(todo);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public Todo GetTodo(int id)
+        public async Task<Todo> GetTodoAsync(int id)
         {
-            var todo = _todoRepository.Get(id);
+            var todo = await _todoRepository.GetAsync(id);
             if (todo == null || todo.UserId != _currentUser.Id)
             {
                 throw new NotFoundException($"Todo with id {id} not found.");
@@ -60,14 +61,14 @@ namespace TodoList.Application.Services.Implementation
             return todo;
         }
 
-        public IEnumerable<Todo> GetTodos()
+        public async Task<IEnumerable<Todo>> GetTodosAsync()
         {
-            return _todoRepository.GetAll(_currentUser.Id);
+            return await _todoRepository.GetAllAsync(_currentUser.Id);
         }
 
-        public void Update(UpdateTodoCommand todo)
+        public async Task UpdateAsync(UpdateTodoCommand todo)
         {
-            var todoFromDb = _todoRepository.Get(todo.Id);
+            var todoFromDb = await _todoRepository.GetAsync(todo.Id);
             if (todo == null || todoFromDb.UserId != _currentUser.Id)
             {
                 throw new NotFoundException($"Todo not found.");
@@ -76,13 +77,13 @@ namespace TodoList.Application.Services.Implementation
             todoFromDb.Title = todo.Title;
             todoFromDb.Description = todo.Description;
 
-            _todoRepository.Update(todoFromDb);
-            _unitOfWork.SaveChanges();
+            await _todoRepository.UpdateAsync(todoFromDb);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public void Update(int id, Status status)
+        public async Task UpdateAsync(int id, Status status)
         {
-            var todo = _todoRepository.Get(id);
+            var todo = await _todoRepository.GetAsync(id);
             if (todo == null || todo.UserId != _currentUser.Id)
             {
                 throw new NotFoundException($"Todo with id {id} not found.");
@@ -90,8 +91,8 @@ namespace TodoList.Application.Services.Implementation
 
             todo.Status = status;
 
-            _todoRepository.Update(todo);
-            _unitOfWork.SaveChanges();
+            await _todoRepository.UpdateAsync(todo);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

@@ -17,56 +17,55 @@ namespace TodoList.Service.Controllers
             _todoService = todoService;
         }
 
-        [HttpGet(Name = "GetTodos")]
-        public ActionResult<IEnumerable<Todo>> GetTodos()
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Todo>>> GetTodosAsync()
         {
-            var todo = _todoService.GetTodos();
+            var todo = await _todoService.GetTodosAsync();
             return Ok(todo);
         }
 
-        [HttpGet("{id:int}")]
-        public ActionResult<Todo> GetTodo(int id)
+        [HttpGet("{id:int}", Name = "GetTodo")]
+        public async Task<ActionResult<Todo>> GetTodoAsync(int id)
         {
-            var todo = _todoService.GetTodo(id);
+            var todo = await _todoService.GetTodoAsync(id);
             return Ok(todo);
         }
 
         [HttpPost]
-        public ActionResult Create([FromBody] Todo todo)
+        public async Task<ActionResult> CreateAsync([FromBody] Todo todo)
         {
             if (todo == null)
             {
                 return BadRequest();
             }
 
-            var newTodoId = _todoService.Create(todo);
-
-            return CreatedAtAction(nameof(GetTodo), new { id = newTodoId }, todo);
+            var newTodoId = await _todoService.CreateAsync(todo);
+            return CreatedAtAction("GetTodo", new {id = newTodoId}, todo);
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> DeleteAsync(int id)
         {
-            _todoService.Delete(id);
+            await _todoService.DeleteAsync(id);
             return NoContent();
         }
 
         [HttpPut("{id:int}")]
-        public ActionResult Update(int id, UpdateTodoCommand todo)
+        public async Task<ActionResult> UpdateAsync(int id, UpdateTodoCommand todo)
         {
             if (todo == null || id != todo.Id)
             {
                 return BadRequest();
             }
-            _todoService.Update(todo);
+
+            await _todoService.UpdateAsync(todo);
             return NoContent();
         }
 
-
         [HttpPatch("{id:int}/status")]
-        public IActionResult UpdateStatus(int id, Status newStatus)
+        public async Task<IActionResult> UpdateStatusAsync(int id, Status newStatus)
         {
-            _todoService.Update(id, newStatus);
+            await _todoService.UpdateAsync(id, newStatus);
             return NoContent();
         }
     }
