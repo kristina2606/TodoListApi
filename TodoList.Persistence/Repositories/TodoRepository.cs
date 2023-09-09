@@ -19,7 +19,7 @@ namespace TodoList.Persistence.Repositories
             await _db.Todos.AddAsync(todo);
         }
 
-        public async Task<IEnumerable<Todo>> GetAllAsync(int userId)
+        public async Task<IEnumerable<Todo>> GetAllAsync(string userId)
         {
             return await _db.Todos.Where(x => x.UserId == userId).ToListAsync();
         }

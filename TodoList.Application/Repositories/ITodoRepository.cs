@@ -4,7 +4,7 @@ namespace TodoList.Application.Repositories
 {
     public interface ITodoRepository
     {
-        Task<IEnumerable<Todo>> GetAllAsync(int userId);
+        Task<IEnumerable<Todo>> GetAllAsync(string userId);
         Task<Todo> GetAsync(int todoId);
         Task AddAsync(Todo todo);
         Task RemoveAsync(Todo todo);

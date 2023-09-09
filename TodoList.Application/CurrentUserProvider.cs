@@ -1,11 +1,43 @@
-﻿namespace TodoList.Application
+﻿using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using TodoList.Application;
+
+public class CurrentUserProvider : ICurrentUser
 {
-    public class CurrentUserProvider : ICurrentUser
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public CurrentUserProvider(IHttpContextAccessor httpContextAccessor)
     {
-        public int Id => 99;
+        _httpContextAccessor = httpContextAccessor;
+    }
 
-        public string Name => "Test User";
+    public string Id
+    {
+        get
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId != null)
+            {
+                return userId;
+            }
 
-        public string Email => "test_user@example.com";
+            return string.Empty;
+        }
+    }
+
+    public string Name
+    {
+        get
+        {
+            return _httpContextAccessor.HttpContext.User.Identity.Name;
+        }
+    }
+
+    public string Email
+    {
+        get
+        {
+            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+        }
     }
 }

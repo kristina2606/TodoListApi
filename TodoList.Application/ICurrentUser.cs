@@ -2,7 +2,7 @@
 {
     public interface ICurrentUser
     {
-        int Id { get; }
+        string Id { get; }
         string Name { get; }
         string Email { get; }
     }

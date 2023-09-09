@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TodoList.Models.Enum;
-using TodoList.Models;
-using TodoList.Application.Services;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TodoList.Application.Models;
+using TodoList.Application.Services;
+using TodoList.Models;
+using TodoList.Models.Enum;
 
 namespace Todo_List.Controllers
 {
+    [Authorize]
     public class TodoController : Controller
     {
         private readonly ITodoService _todoService;
