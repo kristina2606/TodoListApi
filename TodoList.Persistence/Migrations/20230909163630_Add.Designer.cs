@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TodoList.Persistence.Data;
 
@@ -11,9 +12,11 @@ using TodoList.Persistence.Data;
 namespace TodoList.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230909163630_Add")]
+    partial class Add
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,7 +58,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 9, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(8877),
+                            CreatedDate = new DateTime(2023, 9, 9, 18, 36, 30, 427, DateTimeKind.Local).AddTicks(3703),
                             Description = "Make yourself a balanced breakfast including proteins, carbohydrates, and vitamins. For instance, an omelette with vegetables and a slice of bread.",
                             Status = 1,
                             Title = "Prepare Breakfast",
@@ -64,7 +67,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 9, 1, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(8997),
+                            CreatedDate = new DateTime(2023, 9, 1, 18, 36, 30, 427, DateTimeKind.Local).AddTicks(3818),
                             Description = "Dedicate some time to physical exercises. It will help awaken your body, improve your mood, and get you ready for the day.",
                             Status = 2,
                             Title = "Morning Workout",
@@ -73,7 +76,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 7, 9, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(9005),
+                            CreatedDate = new DateTime(2023, 7, 9, 18, 36, 30, 427, DateTimeKind.Local).AddTicks(3832),
                             Description = "Check your email and respond to important messages. This will help you stay connected with colleagues, friends, and partners",
                             Status = 3,
                             Title = "Respond to Emails",
@@ -82,7 +85,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2023, 9, 9, 17, 25, 48, 221, DateTimeKind.Local).AddTicks(9015),
+                            CreatedDate = new DateTime(2023, 9, 9, 17, 16, 30, 427, DateTimeKind.Local).AddTicks(3848),
                             Description = "Create a task list for the day and prioritize them. This will help you organize your work and achieve your goals.",
                             Status = 1,
                             Title = "Plan Your Work Day",
@@ -91,7 +94,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2023, 9, 7, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(9020),
+                            CreatedDate = new DateTime(2023, 9, 7, 18, 36, 30, 427, DateTimeKind.Local).AddTicks(3860),
                             Description = "Engage in your main tasks according to the list. Avoid distractions and try to focus on one task at a time.",
                             Status = 1,
                             Title = "Productive Work Time",
@@ -100,7 +103,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedDate = new DateTime(2023, 9, 6, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(9022),
+                            CreatedDate = new DateTime(2023, 9, 6, 18, 36, 30, 427, DateTimeKind.Local).AddTicks(3867),
                             Description = "Take a break and have lunch. Consider healthy eating, including vegetables, proteins, and healthy fats.",
                             Status = 1,
                             Title = "Lunch Break",
