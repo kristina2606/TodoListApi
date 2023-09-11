@@ -6,7 +6,7 @@ namespace TodoList.Application.Services
 {
     public interface ITodoService
     {
-        Task<IEnumerable<Todo>> GetTodosAsync();
+        Task<IEnumerable<Todo>> GetTodosAsync(Status? status);
         Task<Todo> GetTodoAsync(int id);
         Task DeleteAsync(int id);
         Task<int> CreateAsync(UpdateTodoCommand todo);

@@ -1,0 +1,89 @@
+﻿@model Todo
+
+<partial name="_Notification" />
+<form method="post" id="updateForm">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" asp-for="Id" />
+    <div class="border p-3 mt-4 col-8 mx-auto">
+        <div class="row">
+            <div class="col pb-4 text-center">
+                <h2><strong>Edit task</strong></h2>
+            </div>
+        </div>
+        <div class="form-floating py-2">
+            <input asp-for="Title" class="form-control" />
+            <label asp-for="Title" class="mt-2"></label>
+            <span asp-validation-for="Title" class="text-danger"></span>
+        </div>
+        <div class="form-floating py-2">
+            <textarea asp-for="Description" class="form-control" style="height: 200px;"></textarea>
+            <label asp-for="Description" class="mt-2"></label>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div>
+            <input asp-for="Status" type="hidden" />
+        </div>
+        <div>
+            <input asp-for="CreatedDate" type="hidden" />
+        </div>
+        <div class="row mb-3">
+            <div class="col-auto">
+                <form method="post" id="deleteForm" asp-controller="Todo" asp-action="Delete" asp-route-todoId="@Model.Id">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <input type="hidden" name="todoId" id="deleteTodoId" value="@Model.Id" />
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="bi bi-trash3-fill"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="col">
+                <div class="row justify-content-lg-end">
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-outline-primary form-control" id="updateButton">Save</button>
+                    </div>
+                    <div class="col-3 ">
+                        <a asp-controller="Todo" asp-action="Index" class="btn btn-dark form-control">
+                            Back
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        function sendAjaxRequest(url, data, method) {
+            $.ajax({
+                url: url,
+                type: method,
+                data: data,
+                success: function (data) {
+                    window.location.href = "/Todo/Index";
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log(xhr.status + ": " + errorThrown);
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $("#updateButton").click(function (event) {
+                event.preventDefault();
+                sendAjaxRequest("/Todo/Update/" + $("#Id").val(), $("#updateForm").serialize(), "PUT");
+            });
+
+            $("#deleteButton").click(function () {
+                if (confirm('Are you sure you want to delete this task?')) {
+                    var todoId = $("#deleteTodoId").val();
+                    sendAjaxRequest("/Todo/Delete/" + todoId, $("#deleteForm").serialize(), "DELETE");
+                }
+            });
+
+        });
+    </script>
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

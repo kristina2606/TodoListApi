@@ -1,25 +1,25 @@
 ﻿@model IEnumerable<Todo>
 
-    ﻿@{
+@{
     var status = Context.Request.Query["status"];
-    var todo = "bg-body-tertiary";
-    var inprogress = "bg-body-tertiary";
-    var completed = "bg-body-tertiary";
-    var all = "bg-body-tertiary";
+    var todoClass = "bg-body-tertiary";
+    var inprogressClass = "bg-body-tertiary";
+    var completedClass = "bg-body-tertiary";
+    var allClass = "bg-body-tertiary";
 
     switch (status)
     {
         case "Todo":
-            todo = "active text-white bg-primary";
+            todoClass = "active text-white bg-primary";
             break;
         case "InProcess":
-            inprogress = "active text-white bg-primary";
+            inprogressClass = "active text-white bg-primary";
             break;
         case "Completed":
-            completed = "active text-white bg-primary";
+            completedClass = "active text-white bg-primary";
             break;
         default:
-            all = "active text-white bg-primary";
+            allClass = "active text-white bg-primary";
             break;
     }
 }
@@ -29,25 +29,25 @@
     <div class="card-body bg-body-tertiary">
         <h1 class="card-title text-center text-black fw-bold">My Todos</h1>
         <div class="row pt-4 pb-2">
-            <div class=" col-6 d-flex">
+            <div class="col-6 d-flex">
                 <ul class="list-group list-group-horizontal-sm">
-                    <a asp-controller="Todo" asp-action="Index" asp-route-status="all">
-                    <li class="list-group-item @all">All</li>
-                    </a>
-                    <a asp-controller="Todo" asp-action="Index" asp-route-status="Todo">
-                    <li class="list-group-item @todo">Todo</li>
-                    </a>
-                    <a asp-controller="Todo" asp-action="Index" asp-route-status="InProcess">
-                    <li class="list-group-item @inprogress">In Process</li>
-                    </a>
-                    <a asp-controller="Todo" asp-action="Index" asp-route-status="Completed">
-                    <li class="list-group-item @completed">Completed</li>
-                    </a>
+                    <li class="list-group-item @allClass">
+                        <a asp-controller="Todo" asp-action="Index" asp-route-status="all" class="text-decoration-none text-dark">All</a>
+                    </li>
+                    <li class="list-group-item @todoClass">
+                        <a asp-controller="Todo" asp-action="Index" asp-route-status="Todo" class="text-decoration-none text-dark">Todo</a>
+                    </li>
+                    <li class="list-group-item @inprogressClass">
+                        <a asp-controller="Todo" asp-action="Index" asp-route-status="InProcess" class="text-decoration-none text-dark">In Process</a>
+                    </li>
+                    <li class="list-group-item @completedClass">
+                        <a asp-controller="Todo" asp-action="Index" asp-route-status="Completed" class="text-decoration-none text-dark">Completed</a>
+                    </li>
                 </ul>
             </div>
             <div class="col-6 text-end">
-                <a asp-controller="Todo" asp-action="Upsert" class="btn btn-primary">
-                    <i class="bi bi-plus-lg"></i>  Add new task
+                <a asp-controller="Todo" asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i> Add new task
                 </a>
             </div>
         </div>
@@ -58,46 +58,25 @@
             <tbody>
                 @foreach (var task in Model)
                 {
-                    <tr class="table-light">
-                        <td class="bg-light-subtle">
-                            <a asp-controller="Todo" asp-action="Upsert" asp-route-todoId="@task.Id" style=" text-decoration: none">
-                                <strong style="font-size:18px"> @task.Title </strong>
-                            </a>
-                            <br />
-                            <em class="text-secondary">
-                                @(task.Description.Length > 40 ? task.Description.Substring(0, 40) + "..." : task.Description                                    )
-                            </em>
-                        </td>
-                        <td class="bg-light-subtle text-center">
-                            @if (task.Status == Status.Completed)
-                            {
-                                <a asp-controller="Todo" asp-action="UpdateStatus" asp-route-todoId="@task.Id" class="btn btn-outline-success" style="font-size:18px">
-                                    @task.Status
-                                </a>
-                            }
-                            else if (task.Status == Status.InProgress)
-                            {
-                                <a asp-controller="Todo" asp-action="UpdateStatus" asp-route-todoId="@task.Id" class="btn btn-outline-warning" style="font-size:18px">
-                                    In Progress
-                                </a>
-                            }
-                            else
-                            {
-                                <a asp-controller="Todo" asp-action="UpdateStatus" asp-route-todoId="@task.Id" class="btn btn-outline-info" style="font-size:18px">
-                                    @task.Status
-                                </a>
-                            }
-                        </td>
-                        <td class="text-end bg-light-subtle text-body-tertiary">
-                            <em style="font-size:14px;">@task.CreatedDate.ToShortTimeString()</em>
-                            <br />
-                            <em style="font-size:14px">@task.CreatedDate.ToShortDateString()</em>
-                        </td>
-                    </tr>
-                    <tr class=" border-bottom: 1px solid #dee2e6">
-                    </tr>
+                    @Html.Partial("_TaskPartial", task)
                 }
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    function updateStatus(todoId, newStatus) {
+        $.ajax({
+            url: '@Url.Action("UpdateStatus", "Todo")',
+            type: 'PATCH',
+            data: { todoId: todoId, status: newStatus },
+            success: function (data) {
+                location.reload();
+            },
+            error: function (error) {
+                Swal.fire('Error', 'An error occurred while updating the task status.', 'error');
+            }
+        });
+    }
+</script>
