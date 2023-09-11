@@ -70,7 +70,8 @@
         $.ajax({
             url: '@Url.Action("UpdateStatus", "Todo")',
             type: 'PATCH',
-            data: { todoId: todoId, status: newStatus },
+            contentType: 'application/json',
+            data: JSON.stringify({ todoId: todoId, status: newStatus }),
             success: function (data) {
                 location.reload();
             },
@@ -80,3 +81,4 @@
         });
     }
 </script>
+

@@ -3,6 +3,7 @@ using TodoList.Models.Enum;
 using TodoList.Models;
 using TodoList.Application.Services;
 using TodoList.Application.Models;
+using TodoList.Web;
 
 namespace Todo_List.Controllers
 {
@@ -77,25 +78,28 @@ namespace Todo_List.Controllers
         }
 
         [HttpPatch]
-        public async Task<IActionResult> UpdateStatus(int todoId, Status status)
-         {
-            if (todoId == 0)
+        public async Task<IActionResult> UpdateStatus([FromBody] UpdateStatusRequest request)
+        {
+            if (request.TodoId == 0)
             {
                 return NotFound();
             }
 
-            var todo = await _todoService.GetTodoAsync(todoId);
+            var todo = await _todoService.GetTodoAsync(request.TodoId);
 
             if (todo == null)
             {
                 return NotFound();
             }
 
-            await _todoService.UpdateAsync(todoId, status);
-            TempData["success"] = $"Task has been moved to '{status}'.";
+            Enum.TryParse(request.Status, out Status status);
+
+            await _todoService.UpdateAsync(request.TodoId, status);
+            TempData["success"] = $"Task has been moved to '{request.Status}'.";
 
             return RedirectToAction("Index");
         }
+
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int todoId)
