@@ -64,7 +64,7 @@ namespace Todo_List.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateTodoCommand todo)
+        public async Task<IActionResult> Update(UpdateTodoCommand todo)
         {
             if (!ModelState.IsValid)
             {
@@ -74,7 +74,7 @@ namespace Todo_List.Controllers
             await _todoService.UpdateAsync(todo);
 
             TempData["success"] = "Task edited successfully";
-            return RedirectToAction("Index");
+            return Json(new { success = true });
         }
 
         [HttpPatch]
@@ -92,12 +92,16 @@ namespace Todo_List.Controllers
                 return NotFound();
             }
 
-            Enum.TryParse(request.Status, out Status status);
+            if(Enum.TryParse(request.Status, out Status status))
+            {
+                await _todoService.UpdateAsync(request.TodoId, status);
+                TempData["success"] = $"Task has been moved to '{request.Status}'.";
 
-            await _todoService.UpdateAsync(request.TodoId, status);
-            TempData["success"] = $"Task has been moved to '{request.Status}'.";
+                return Json(new { success = true });
 
-            return RedirectToAction("Index");
+            }
+                
+            return Json(new { error = true });
         }
 
 
@@ -112,7 +116,7 @@ namespace Todo_List.Controllers
             await _todoService.DeleteAsync(todoId);
             TempData["success"] = "Task deleted successfully";
 
-            return RedirectToAction("Index");
+            return Json(new { success = true });
         }
     }
 }
