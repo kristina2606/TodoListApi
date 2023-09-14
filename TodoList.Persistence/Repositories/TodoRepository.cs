@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TodoList.Application.Repositories;
 using TodoList.Models;
+using TodoList.Models.Enum;
 using TodoList.Persistence.Data;
 
 namespace TodoList.Persistence.Repositories
@@ -19,9 +20,9 @@ namespace TodoList.Persistence.Repositories
             await _db.Todos.AddAsync(todo);
         }
 
-        public async Task<IEnumerable<Todo>> GetAllAsync(int userId)
+        public async Task<IEnumerable<Todo>> GetAllAsync(int userId, Status[] statuses)
         {
-            return await _db.Todos.Where(x => x.UserId == userId).ToListAsync();
+            return await _db.Todos.Where(x => x.UserId == userId && statuses.Contains(x.Status)).ToListAsync();
         }
 
         public async Task<Todo> GetAsync(int todoId)

@@ -12,7 +12,7 @@
         case "Todo":
             todoClass = "active text-white bg-primary";
             break;
-        case "InProcess":
+        case "InProgress":
             inprogressClass = "active text-white bg-primary";
             break;
         case "Completed":
@@ -32,13 +32,13 @@
             <div class="col-6 d-flex">
                 <ul class="list-group list-group-horizontal-sm">
                     <li class="list-group-item @allClass">
-                        <a asp-controller="Todo" asp-action="Index" asp-route-status="all" class="text-decoration-none text-dark">All</a>
+                        <a asp-controller="Todo" asp-action="Index" asp-route-status="TodoAndInProgress" class="text-decoration-none text-dark">All</a>
                     </li>
                     <li class="list-group-item @todoClass">
                         <a asp-controller="Todo" asp-action="Index" asp-route-status="Todo" class="text-decoration-none text-dark">Todo</a>
                     </li>
                     <li class="list-group-item @inprogressClass">
-                        <a asp-controller="Todo" asp-action="Index" asp-route-status="InProcess" class="text-decoration-none text-dark">In Process</a>
+                        <a asp-controller="Todo" asp-action="Index" asp-route-status="InProgress" class="text-decoration-none text-dark">In Progress</a>
                     </li>
                     <li class="list-group-item @completedClass">
                         <a asp-controller="Todo" asp-action="Index" asp-route-status="Completed" class="text-decoration-none text-dark">Completed</a>

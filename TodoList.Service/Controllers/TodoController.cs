@@ -20,7 +20,7 @@ namespace TodoList.Service.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Todo>>> GetTodosAsync()
         {
-            var todo = await _todoService.GetTodosAsync();
+            var todo = await _todoService.GetTodosAsync(Status.All);
             return Ok(todo);
         }
 

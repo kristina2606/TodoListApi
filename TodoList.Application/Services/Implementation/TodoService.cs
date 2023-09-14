@@ -63,19 +63,24 @@ namespace TodoList.Application.Services.Implementation
 
         public async Task<IEnumerable<Todo>> GetTodosAsync(Status? status)
         {
-            var todos = await _todoRepository.GetAllAsync(_currentUser.Id);
-            if (todos == null)
+            Status[] statuses;
+
+            if (status == null)
             {
-                throw new NotFoundException($"Todos for user with id {_currentUser.Id} not found.");
+                statuses = new Status[] { Status.InProgress, Status.Todo };
+            }
+            else if (status == Status.All)
+            {
+                statuses = new Status[] { Status.InProgress, Status.Todo, Status.Completed };
+            }
+            else
+            {
+                statuses = new Status[] { status.Value };
             }
 
-            if (status!=null)
-            {
-                return todos.Where(x=>x.Status == status);
-            }
-
-            return todos.Where(x=> x.Status != Status.Completed);
+            return await _todoRepository.GetAllAsync(_currentUser.Id, statuses);
         }
+
 
         public async Task UpdateAsync(UpdateTodoCommand todo)
         {

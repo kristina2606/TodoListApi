@@ -3,7 +3,7 @@ using TodoList.Models.Enum;
 using TodoList.Models;
 using TodoList.Application.Services;
 using TodoList.Application.Models;
-using TodoList.Web;
+using TodoList.Web.Models;
 
 namespace Todo_List.Controllers
 {
@@ -20,8 +20,6 @@ namespace Todo_List.Controllers
         public async Task<IActionResult> Index(Status? status)
         {
             var todosFromDb = await _todoService.GetTodosAsync(status);
-
-            todosFromDb.Where(x => x.Status == status);
 
             return View(todosFromDb);
         }
@@ -41,8 +39,8 @@ namespace Todo_List.Controllers
             }
 
             await _todoService.CreateAsync(todo);
-
             TempData["success"] = "Task added successfully";
+
             return RedirectToAction("Index");
         }
 
@@ -72,8 +70,8 @@ namespace Todo_List.Controllers
             }
 
             await _todoService.UpdateAsync(todo);
-
             TempData["success"] = "Task edited successfully";
+
             return Json(new { success = true });
         }
 
