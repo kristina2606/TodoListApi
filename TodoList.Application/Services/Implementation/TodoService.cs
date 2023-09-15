@@ -3,6 +3,7 @@ using TodoList.Application.Models;
 using TodoList.Application.Repositories;
 using TodoList.Models;
 using TodoList.Models.Enum;
+using TodoList.Web.Models.Enum;
 
 namespace TodoList.Application.Services.Implementation
 {
@@ -18,13 +19,12 @@ namespace TodoList.Application.Services.Implementation
             _currentUser = currentUser;
             _unitOfWork = unitOfWork;
         }
-        public async Task<int> CreateAsync(UpdateTodoCommand todo)
+        public async Task<int> CreateAsync(CreateTodoCommand todo)
         {
             ArgumentNullException.ThrowIfNull(todo);
 
             var newTodo = new Todo
             {
-                Id = todo.Id,
                 Title = todo.Title,
                 Description = todo.Description,
                 Status = Status.Todo,
@@ -61,21 +61,29 @@ namespace TodoList.Application.Services.Implementation
             return todo;
         }
 
-        public async Task<IEnumerable<Todo>> GetTodosAsync(Status? status)
+        public async Task<IEnumerable<Todo>> GetTodosAsync(FilterStatus? status)
         {
             Status[] statuses;
 
-            if (status == null)
+            switch (status)
             {
-                statuses = new Status[] { Status.InProgress, Status.Todo };
-            }
-            else if (status == Status.All)
-            {
-                statuses = new Status[] { Status.InProgress, Status.Todo, Status.Completed };
-            }
-            else
-            {
-                statuses = new Status[] { status.Value };
+                case FilterStatus.All:
+                    statuses = new Status[] { Status.InProgress, Status.Todo, Status.Completed };
+                    break;
+                case FilterStatus.Active:
+                    statuses = new Status[] { Status.InProgress, Status.Todo };
+                    break;
+                case FilterStatus.Todo:
+                    statuses = new Status[] { Status.Todo };
+                    break;
+                case FilterStatus.InProgress:
+                    statuses = new Status[] { Status.InProgress };
+                    break;
+                case FilterStatus.Completed:
+                    statuses = new Status[] { Status.Completed };
+                    break;
+                default:
+                    throw new ArgumentException("Invalid filter status.");
             }
 
             return await _todoRepository.GetAllAsync(_currentUser.Id, statuses);

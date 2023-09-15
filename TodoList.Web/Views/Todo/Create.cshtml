@@ -1,4 +1,4 @@
-﻿@model Todo
+﻿@model CreateTodoCommand
 
 <partial name="_Notification" />
 <form method="post">
@@ -17,12 +17,6 @@
             <textarea asp-for="Description" class="form-control" style="height: 200px;"></textarea>
             <label asp-for="Description" class="mt-2"></label>
             <span asp-validation-for="Description" class="text-danger"></span>
-        </div>
-        <div>
-            <input asp-for="Status" type="hidden" value="Todo" />
-        </div>
-        <div>
-            <input asp-for="CreatedDate" type="hidden" value="@DateTime.Now" />
         </div>
         <div class="row mb-3">
             <div class="col">

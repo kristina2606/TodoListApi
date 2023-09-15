@@ -4,7 +4,6 @@
     {
         Todo = 1,
         InProgress = 2,
-        Completed = 3,
-        All = 4
+        Completed = 3
     }
 }

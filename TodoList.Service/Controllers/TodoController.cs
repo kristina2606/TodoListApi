@@ -3,6 +3,7 @@ using TodoList.Application.Models;
 using TodoList.Application.Services;
 using TodoList.Models;
 using TodoList.Models.Enum;
+using TodoList.Web.Models.Enum;
 
 namespace TodoList.Service.Controllers
 {
@@ -20,7 +21,7 @@ namespace TodoList.Service.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Todo>>> GetTodosAsync()
         {
-            var todo = await _todoService.GetTodosAsync(Status.All);
+            var todo = await _todoService.GetTodosAsync(FilterStatus.All);
             return Ok(todo);
         }
 
@@ -32,7 +33,7 @@ namespace TodoList.Service.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync([FromBody] UpdateTodoCommand todo)
+        public async Task<ActionResult> CreateAsync([FromBody] CreateTodoCommand todo)
         {
             if (todo == null)
             {

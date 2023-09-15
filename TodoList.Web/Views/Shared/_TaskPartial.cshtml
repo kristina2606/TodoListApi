@@ -12,36 +12,15 @@
     </td>
     <td class="bg-light-subtle text-center">
         <div class="dropdown">
-            @if (Model.Status == Status.Completed)
-            {
-                <button class="btn btn-outline-success dropdown-toggle" type="button" id="statusDropdown-@Model.Id" data-bs-toggle="dropdown" aria-expanded="false">
-                    @Model.Status
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="statusDropdown-@Model.Id">
-                    <li><a class="dropdown-item" onclick="updateStatus(@Model.Id, 'InProgress')">In Progress</a></li>
-                    <li><a class="dropdown-item" onclick="updateStatus(@Model.Id, 'Todo')">Todo</a></li>
-                </ul>
-            }
-            else if (Model.Status == Status.InProgress)
-            {
-                <button class="btn btn-outline-warning dropdown-toggle" type="button" id="statusDropdown-@Model.Id" data-bs-toggle="dropdown" aria-expanded="false">
-                    In Progress
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="statusDropdown-@Model.Id">
-                    <li><a class="dropdown-item" onclick="updateStatus(@Model.Id, 'Completed')">Completed</a></li>
-                    <li><a class="dropdown-item" onclick="updateStatus(@Model.Id, 'Todo')">Todo</a></li>
-                </ul>
-            }
-            else
-            {
-                <button class="btn btn-outline-info dropdown-toggle" type="button" id="statusDropdown-@Model.Id" data-bs-toggle="dropdown" aria-expanded="false">
-                    @Model.Status
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="statusDropdown-@Model.Id">
-                    <li><a class="dropdown-item" onclick="updateStatus(@Model.Id, 'InProgress')">In Progress</a></li>
-                    <li><a class="dropdown-item" onclick="updateStatus(@Model.Id, 'Completed')">Completed</a></li>
-                </ul>
-            }
+            <form method="post" asp-controller="Todo" asp-action="UpdateStatus">
+                <select name="status" class="@StatusToDisplayDesign(Model.Status)" onchange="this.form.submit()">
+                    <option value="Todo" selected="@Model.Status == Status.Todo">Todo</option>
+                    <option value="Completed" selected="@Model.Status == Status.Completed">Completed</option>
+                    <option value="InProgress" selected="@Model.Status == Status.InProgress">In Progress</option>
+                    <option hidden value=@StatusToDisplay(Model.Status) selected=@Model.Status>@StatusToDisplay(Model.Status) </option>
+                </select>
+                <input type="hidden" name="todoId" value="@Model.Id" />
+            </form>
         </div>
     </td>
     <td class="text-end bg-light-subtle text-body-tertiary">
@@ -50,4 +29,39 @@
         <em style="font-size:14px">@Model.CreatedDate.ToShortDateString()</em>
     </td>
 </tr>
-<tr class=" border-bottom: 1px solid #dee2e6"></tr>
+<tr class="border-bottom"></tr>
+
+
+@functions {
+    public string StatusToDisplayDesign(Status status)
+    {
+        switch (status)
+        {
+            case Status.Completed:
+                return "btn btn-outline-success dropdown-toggle";
+            case Status.InProgress:
+                return "btn btn-outline-warning dropdown-toggle";
+            case Status.Todo:
+                return "btn btn-outline-info dropdown-toggle";
+            default:
+                return "btn btn-outline-secondary dropdown-toggle";
+        }
+    }
+}
+
+@functions {
+    public string StatusToDisplay(Status status)
+    {
+        switch (status)
+        {
+            case Status.Completed:
+                return "Completed";
+            case Status.InProgress:
+                return "In Progress";
+            case Status.Todo:
+                return "Todo";
+            default:
+                return "Unknow";
+        }
+    }
+}

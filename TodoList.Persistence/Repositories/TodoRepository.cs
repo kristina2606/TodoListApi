@@ -22,7 +22,14 @@ namespace TodoList.Persistence.Repositories
 
         public async Task<IEnumerable<Todo>> GetAllAsync(int userId, Status[] statuses)
         {
-            return await _db.Todos.Where(x => x.UserId == userId && statuses.Contains(x.Status)).ToListAsync();
+            if (statuses != null && statuses.Any())
+            {
+                return await _db.Todos.Where(x => x.UserId == userId && statuses.Contains(x.Status)).ToListAsync();
+            }
+            else
+            {
+                return await _db.Todos.Where(x => x.UserId == userId).ToListAsync();
+            }
         }
 
         public async Task<Todo> GetAsync(int todoId)

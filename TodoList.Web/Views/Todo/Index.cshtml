@@ -25,60 +25,43 @@
 }
 
 <partial name="_Notification" />
-<div class="card border-0">
-    <div class="card-body bg-body-tertiary">
-        <h1 class="card-title text-center text-black fw-bold">My Todos</h1>
-        <div class="row pt-4 pb-2">
-            <div class="col-6 d-flex">
-                <ul class="list-group list-group-horizontal-sm">
-                    <li class="list-group-item @allClass">
-                        <a asp-controller="Todo" asp-action="Index" asp-route-status="TodoAndInProgress" class="text-decoration-none text-dark">All</a>
-                    </li>
-                    <li class="list-group-item @todoClass">
-                        <a asp-controller="Todo" asp-action="Index" asp-route-status="Todo" class="text-decoration-none text-dark">Todo</a>
-                    </li>
-                    <li class="list-group-item @inprogressClass">
-                        <a asp-controller="Todo" asp-action="Index" asp-route-status="InProgress" class="text-decoration-none text-dark">In Progress</a>
-                    </li>
-                    <li class="list-group-item @completedClass">
-                        <a asp-controller="Todo" asp-action="Index" asp-route-status="Completed" class="text-decoration-none text-dark">Completed</a>
-                    </li>
-                </ul>
+
+    <div class="card border-0">
+        <div class="card-body bg-body-tertiary">
+            <h1 class="card-title text-center text-black fw-bold">My Todos</h1>
+            <div class="row pt-4 pb-2">
+                <div class="col-6 d-flex">
+                    <ul class="list-group list-group-horizontal-sm">
+                        <li class="list-group-item @allClass">
+                            <a asp-controller="Todo" asp-action="Index" asp-route-status="Active" class="text-decoration-none text-dark">All</a>
+                        </li>
+                        <li class="list-group-item @todoClass">
+                            <a asp-controller="Todo" asp-action="Index" asp-route-status="Todo" class="text-decoration-none text-dark">Todo</a>
+                        </li>
+                        <li class="list-group-item @inprogressClass">
+                            <a asp-controller="Todo" asp-action="Index" asp-route-status="InProgress" class="text-decoration-none text-dark">In Progress</a>
+                        </li>
+                        <li class="list-group-item @completedClass">
+                            <a asp-controller="Todo" asp-action="Index" asp-route-status="Completed" class="text-decoration-none text-dark">Completed</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6 text-end">
+                    <a asp-controller="Todo" asp-action="Create" class="btn btn-primary">
+                        <i class="bi bi-plus-lg"></i> Add new task
+                    </a>
+                </div>
             </div>
-            <div class="col-6 text-end">
-                <a asp-controller="Todo" asp-action="Create" class="btn btn-primary">
-                    <i class="bi bi-plus-lg"></i> Add new task
-                </a>
-            </div>
+
+            <table class="table table-hover mt-0">
+                <thead>
+                </thead>
+                <tbody>
+                    @foreach (var task in Model)
+                    {
+                        <partial name="_TaskPartial" model="task" />
+                    }
+                </tbody>
+            </table>
         </div>
-
-        <table class="table table-hover mt-0">
-            <thead>
-            </thead>
-            <tbody>
-                @foreach (var task in Model)
-                {
-                    @Html.Partial("_TaskPartial", task)
-                }
-            </tbody>
-        </table>
     </div>
-</div>
-
-<script>
-    function updateStatus(todoId, newStatus) {
-        $.ajax({
-            url: '@Url.Action("UpdateStatus", "Todo")',
-            type: 'PATCH',
-            contentType: 'application/json',
-            data: JSON.stringify({ todoId: todoId, status: newStatus }),
-            success: function (data) {
-                location.reload();
-            },
-            error: function (error) {
-                Swal.fire('Error', 'An error occurred while updating the task status.', 'error');
-            }
-        });
-    }
-</script>
-

@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TodoList.Models.Enum;
-using TodoList.Models;
 using TodoList.Application.Services;
 using TodoList.Application.Models;
 using TodoList.Web.Models;
+using TodoList.Web.Models.Enum;
 
 namespace Todo_List.Controllers
 {
@@ -17,7 +17,7 @@ namespace Todo_List.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(Status? status)
+        public async Task<IActionResult> Index(FilterStatus status = FilterStatus.Active)
         {
             var todosFromDb = await _todoService.GetTodosAsync(status);
 
@@ -27,11 +27,11 @@ namespace Todo_List.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            return View(new Todo());
+            return View(new CreateTodoCommand());
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(UpdateTodoCommand todo)
+        public async Task<IActionResult> Create(CreateTodoCommand todo)
         {
             if (!ModelState.IsValid)
             {
@@ -58,25 +58,39 @@ namespace Todo_List.Controllers
                 return NotFound();
             }
 
-            return View(todoFromDb);
+            var todoVM = new TodoDetailedViewModel
+            {
+                Id = todoFromDb.Id,
+                Title = todoFromDb.Title,
+                Description = todoFromDb.Description
+            };
+
+            return View(todoVM);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(UpdateTodoCommand todo)
+        [HttpPost]
+        public async Task<IActionResult> Update(TodoDetailedViewModel todoVM)
         {
             if (!ModelState.IsValid)
             {
-                return View(todo);
+                return View(todoVM);
             }
+
+            var todo = new UpdateTodoCommand
+            {
+                Id = todoVM.Id,
+                Title = todoVM.Title,
+                Description = todoVM.Description
+            };
 
             await _todoService.UpdateAsync(todo);
             TempData["success"] = "Task edited successfully";
 
-            return Json(new { success = true });
+            return RedirectToAction("Index");
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> UpdateStatus([FromBody] UpdateStatusRequest request)
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(UpdateStatusRequest request)
         {
             if (request.TodoId == 0)
             {
@@ -95,15 +109,14 @@ namespace Todo_List.Controllers
                 await _todoService.UpdateAsync(request.TodoId, status);
                 TempData["success"] = $"Task has been moved to '{request.Status}'.";
 
-                return Json(new { success = true });
-
+                return RedirectToAction("Index");
             }
-                
-            return Json(new { error = true });
+
+            return NotFound();
         }
 
 
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> Delete(int todoId)
         {
             if (todoId == 0)
@@ -114,7 +127,7 @@ namespace Todo_List.Controllers
             await _todoService.DeleteAsync(todoId);
             TempData["success"] = "Task deleted successfully";
 
-            return Json(new { success = true });
+            return RedirectToAction("Index");
         }
     }
 }

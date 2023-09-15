@@ -1,9 +1,8 @@
-﻿@model Todo
+﻿@model TodoDetailedViewModel
 
 <partial name="_Notification" />
-<form method="post" id="editForm">
-    <input type="hidden" name="_method" value="PUT">
-    <input type="hidden" asp-for="Id" />
+<form method="post">
+     <input type="hidden" asp-for="Id" />
     <div class="border p-3 mt-4 col-8 mx-auto">
         <div class="row">
             <div class="col pb-4 text-center">
@@ -20,22 +19,18 @@
             <label asp-for="Description" class="mt-2"></label>
             <span asp-validation-for="Description" class="text-danger"></span>
         </div>
-        <div>
-            <input asp-for="Status" type="hidden" />
-        </div>
-        <div>
-            <input asp-for="CreatedDate" type="hidden" />
-        </div>
         <div class="row mb-3">
             <div class="col-auto ">
-                <a id="deleteLink" class="btn btn-outline-danger">
+                <button type="submit" formaction=@Url.Action("Delete", new { todoId = Model.Id }) class="btn btn-outline-danger">
                     <i class="bi bi-trash3-fill"></i>
-                </a>
+                </button>
             </div>
             <div class="col">
                 <div class="row justify-content-lg-end">
                     <div class="col-3">
-                        <button type="button" id="saveButton" class="btn btn-outline-primary form-control">Save</button>
+                        <button type="submit" formaction=@Url.Action("Update") class="btn btn-outline-primary form-control">
+                            Save
+                        </button>
                     </div>
                     <div class="col-3 ">
                         <a asp-controller="Todo" asp-action="Index" class="btn btn-dark form-control">
@@ -50,45 +45,3 @@
 
 
 
-@section Scripts{
-    @{
-        <partial name="_ValidationScriptsPartial" />
-    }
-    <script>
-        $(document).ready(function () {
-            $("#saveButton").click(function () {
-                var formData = $("#editForm").serialize();
-                $.ajax({
-                    type: "PUT",
-                    url: "@Url.Action("Update")",
-                    data: formData,
-                    success: function (response) {
-                        window.location.href = "@Url.Action("Index", "Todo")";
-                    },
-                    error: function () {
-                        Swal.fire('Error', 'An error occurred while updating the task.', 'error');
-                    }
-                });
-            });
-        });
-  
-        $(document).ready(function () {
-            $("#deleteLink").click(function (e) {
-                e.preventDefault();
-                var todoId = @Model.Id;
-                $.ajax({
-                    type: "DELETE",
-                    url: "@Url.Action("Delete", new { todoId = Model.Id })",
-                    success: function (response) {
-                        if (response.success) {
-                            window.location.href = "@Url.Action("Index", "Todo")";
-                        }
-                    },
-                    error: function () {
-                        Swal.fire('Error', 'An error occurred while deleting the task.', 'error');
-                    }
-                });
-            });
-        });
-    </script>
-}
