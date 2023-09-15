@@ -2,26 +2,8 @@
 
 @{
     var status = Context.Request.Query["status"];
-    var todoClass = "bg-body-tertiary";
-    var inprogressClass = "bg-body-tertiary";
-    var completedClass = "bg-body-tertiary";
-    var allClass = "bg-body-tertiary";
-
-    switch (status)
-    {
-        case "Todo":
-            todoClass = "active text-white bg-primary";
-            break;
-        case "InProgress":
-            inprogressClass = "active text-white bg-primary";
-            break;
-        case "Completed":
-            completedClass = "active text-white bg-primary";
-            break;
-        default:
-            allClass = "active text-white bg-primary";
-            break;
-    }
+    string defaultClass = "bg-body-tertiary";
+    string selectedClass = "active text-white bg-primary";
 }
 
 <partial name="_Notification" />
@@ -32,16 +14,16 @@
             <div class="row pt-4 pb-2">
                 <div class="col-6 d-flex">
                     <ul class="list-group list-group-horizontal-sm">
-                        <li class="list-group-item @allClass">
+                    <li class="list-group-item  @(status == "Active"  ? selectedClass : defaultClass)">
                             <a asp-controller="Todo" asp-action="Index" asp-route-status="Active" class="text-decoration-none text-dark">All</a>
                         </li>
-                        <li class="list-group-item @todoClass">
+                    <li class="list-group-item @(status == "Todo" ? selectedClass : defaultClass)">
                             <a asp-controller="Todo" asp-action="Index" asp-route-status="Todo" class="text-decoration-none text-dark">Todo</a>
                         </li>
-                        <li class="list-group-item @inprogressClass">
+                    <li class="list-group-item @(status == "InProgress" ? selectedClass : defaultClass)">
                             <a asp-controller="Todo" asp-action="Index" asp-route-status="InProgress" class="text-decoration-none text-dark">In Progress</a>
                         </li>
-                        <li class="list-group-item @completedClass">
+                    <li class="list-group-item @(status == "Completed" ? selectedClass : defaultClass)">
                             <a asp-controller="Todo" asp-action="Index" asp-route-status="Completed" class="text-decoration-none text-dark">Completed</a>
                         </li>
                     </ul>

@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TodoList.Models.Enum;
 using TodoList.Application.Services;
 using TodoList.Application.Models;
 using TodoList.Web.Models;
-using TodoList.Web.Models.Enum;
+using TodoList.Application.Enums;
+using TodoList.Application.Exeptions;
 
-namespace Todo_List.Controllers
+namespace TodoList.Web.Controllers
 {
     public class TodoController : Controller
     {
@@ -52,17 +52,13 @@ namespace Todo_List.Controllers
                 return NotFound();
             }
 
-            var todoFromDb = await _todoService.GetTodoAsync(todoId);
-            if (todoFromDb == null)
-            {
-                return NotFound();
-            }
-
+            var todo = await _todoService.GetTodoAsync(todoId) ?? throw new NotFoundException("Todo item not found.");
+          
             var todoVM = new TodoDetailedViewModel
             {
-                Id = todoFromDb.Id,
-                Title = todoFromDb.Title,
-                Description = todoFromDb.Description
+                Id = todo.Id,
+                Title = todo.Title,
+                Description = todo.Description
             };
 
             return View(todoVM);
@@ -97,22 +93,10 @@ namespace Todo_List.Controllers
                 return NotFound();
             }
 
-            var todo = await _todoService.GetTodoAsync(request.TodoId);
+            await _todoService.UpdateAsync(request.TodoId, request.Status);
+            TempData["success"] = $"Task has been moved to '{request.Status}'.";
 
-            if (todo == null)
-            {
-                return NotFound();
-            }
-
-            if(Enum.TryParse(request.Status, out Status status))
-            {
-                await _todoService.UpdateAsync(request.TodoId, status);
-                TempData["success"] = $"Task has been moved to '{request.Status}'.";
-
-                return RedirectToAction("Index");
-            }
-
-            return NotFound();
+            return RedirectToAction("Index");
         }
 
 

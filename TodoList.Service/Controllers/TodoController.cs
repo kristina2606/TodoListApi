@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TodoList.Application.Enums;
 using TodoList.Application.Models;
 using TodoList.Application.Services;
 using TodoList.Models;
 using TodoList.Models.Enum;
-using TodoList.Web.Models.Enum;
 
 namespace TodoList.Service.Controllers
 {

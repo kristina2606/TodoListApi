@@ -1,9 +1,10 @@
-﻿using TodoList.Application.Exeptions;
+﻿using TodoList.Application.Enums;
+using TodoList.Application.Exeptions;
+using TodoList.Application.Extensions;
 using TodoList.Application.Models;
 using TodoList.Application.Repositories;
 using TodoList.Models;
 using TodoList.Models.Enum;
-using TodoList.Web.Models.Enum;
 
 namespace TodoList.Application.Services.Implementation
 {
@@ -61,30 +62,9 @@ namespace TodoList.Application.Services.Implementation
             return todo;
         }
 
-        public async Task<IEnumerable<Todo>> GetTodosAsync(FilterStatus? status)
+        public async Task<IEnumerable<Todo>> GetTodosAsync(FilterStatus status)
         {
-            Status[] statuses;
-
-            switch (status)
-            {
-                case FilterStatus.All:
-                    statuses = new Status[] { Status.InProgress, Status.Todo, Status.Completed };
-                    break;
-                case FilterStatus.Active:
-                    statuses = new Status[] { Status.InProgress, Status.Todo };
-                    break;
-                case FilterStatus.Todo:
-                    statuses = new Status[] { Status.Todo };
-                    break;
-                case FilterStatus.InProgress:
-                    statuses = new Status[] { Status.InProgress };
-                    break;
-                case FilterStatus.Completed:
-                    statuses = new Status[] { Status.Completed };
-                    break;
-                default:
-                    throw new ArgumentException("Invalid filter status.");
-            }
+            var statuses = status.ToTodoStatus();
 
             return await _todoRepository.GetAllAsync(_currentUser.Id, statuses);
         }
