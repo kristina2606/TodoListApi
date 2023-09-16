@@ -20,9 +20,9 @@ namespace TodoList.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(FilterStatus status)
         {
-            var todosFromDb = await _todoService.GetTodosAsync(status);
+            var todo = await _todoService.GetTodosAsync(status);
 
-            return View(todosFromDb);
+            return View(todo);
         }
 
         [HttpGet]
@@ -48,20 +48,20 @@ namespace TodoList.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int todoId)
         {
-                if (todoId == 0)
-                {
-                    return NotFound();
-                }
+            if (todoId == 0)
+            {
+                return NotFound();
+            }
 
-                var todo = await _todoService.GetTodoAsync(todoId) ?? throw new NotFoundException("Todo item not found.");
+            var todo = await _todoService.GetTodoAsync(todoId) ?? throw new NotFoundException("Todo item not found.");
 
-                var todoVM = new TodoDetailedViewModel
-                {
-                    Id = todo.Id,
-                    Title = todo.Title,
-                    Description = todo.Description
-                };
-                return View(todoVM);
+            var todoVM = new TodoDetailedViewModel
+            {
+                Id = todo.Id,
+                Title = todo.Title,
+                Description = todo.Description
+            };
+            return View(todoVM);
         }
 
         [HttpPost]
@@ -94,7 +94,7 @@ namespace TodoList.Web.Controllers
             }
 
             await _todoService.UpdateAsync(request.TodoId, request.Status);
-            TempData["success"] = $"Task has been moved to '{(request.Status == Status.InProgress ? "In Progress" : request.Status.ToString())}'.";
+            TempData["success"] = $"Task has been moved to '{GetStatusName(request.Status)}'.";
 
             return RedirectToAction("Index");
         }
@@ -112,6 +112,17 @@ namespace TodoList.Web.Controllers
             TempData["success"] = "Task deleted successfully";
 
             return RedirectToAction("Index");
+        }
+
+        private static string GetStatusName(Status status)
+        {
+            return status switch
+            {
+                Status.Completed => "Completed",
+                Status.InProgress => "In Progress",
+                Status.Todo => "Todo",
+                _ => status.ToString(),
+            };
         }
     }
 }
