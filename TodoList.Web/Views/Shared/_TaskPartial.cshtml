@@ -13,7 +13,8 @@
     <td class="bg-light-subtle text-center">
         <div class="dropdown">
             <form method="post" asp-controller="Todo" asp-action="UpdateStatus">
-                <select asp-for="Status" class="@StatusToDisplayDesign(Model.Status)" asp-items="Html.GetEnumSelectList<Status>()" onchange="this.form.submit()">
+                <select asp-for="Status" class="btn @(GetStatusColor()) dropdown-toggle" asp-items="Html.GetEnumSelectList<Status>()" onchange="this.form.submit()">
+                    <option hidden>@Model.Status</option>
                 </select>
                 <input type="hidden" name="todoId" value="@Model.Id" />
             </form>
@@ -29,18 +30,19 @@
 
 
 @functions {
-    public string StatusToDisplayDesign(Status status)
+    public string GetStatusColor()
     {
-        switch (status)
+        switch (@Model.Status)
         {
             case Status.Completed:
-                return "btn btn-outline-success dropdown-toggle";
+                return "btn-outline-success";
             case Status.InProgress:
-                return "btn btn-outline-warning dropdown-toggle";
+                return "btn-outline-warning";
             case Status.Todo:
-                return "btn btn-outline-info dropdown-toggle";
+                return "btn-outline-info";
             default:
-                return "btn btn-outline-secondary dropdown-toggle";
+                return "btn-outline-secondary";
         }
     }
 }
+

@@ -13,20 +13,23 @@
             <h1 class="card-title text-center text-black fw-bold">My Todos</h1>
             <div class="row pt-4 pb-2">
                 <div class="col-6 d-flex">
-                    <ul class="list-group list-group-horizontal-sm">
-                    <li class="list-group-item  @(status == "Active"  ? selectedClass : defaultClass)">
-                            <a asp-controller="Todo" asp-action="Index" asp-route-status="Active" class="text-decoration-none text-dark">All</a>
-                        </li>
-                    <li class="list-group-item @(status == "Todo" ? selectedClass : defaultClass)">
-                            <a asp-controller="Todo" asp-action="Index" asp-route-status="Todo" class="text-decoration-none text-dark">Todo</a>
-                        </li>
-                    <li class="list-group-item @(status == "InProgress" ? selectedClass : defaultClass)">
-                            <a asp-controller="Todo" asp-action="Index" asp-route-status="InProgress" class="text-decoration-none text-dark">In Progress</a>
-                        </li>
-                    <li class="list-group-item @(status == "Completed" ? selectedClass : defaultClass)">
-                            <a asp-controller="Todo" asp-action="Index" asp-route-status="Completed" class="text-decoration-none text-dark">Completed</a>
-                        </li>
-                    </ul>
+                <ul class="list-group list-group-horizontal-sm">
+                    <a asp-controller="Todo" asp-action="Index" asp-route-status="All" class="text-decoration-none text-dark">
+                    <li class="list-group-item  @(string.IsNullOrEmpty(status) || status == "All" ? selectedClass : defaultClass)">All</li>
+                    </a>
+                    <a asp-controller="Todo" asp-action="Index" asp-route-status="Active" class="text-decoration-none text-dark">
+                    <li class="list-group-item  @(status == "Active"  ? selectedClass : defaultClass)">Active</li>
+                    </a>
+                    <a asp-controller="Todo" asp-action="Index" asp-route-status="Todo" class="text-decoration-none text-dark">
+                    <li class="list-group-item @(status == "Todo" ? selectedClass : defaultClass)">Todo</li>
+                    </a>
+                    <a asp-controller="Todo" asp-action="Index" asp-route-status="InProgress" class="text-decoration-none text-dark">
+                    <li class="list-group-item @(status == "InProgress" ? selectedClass : defaultClass)">In Progress</li>
+                    </a>
+                    <a asp-controller="Todo" asp-action="Index" asp-route-status="Completed" class="text-decoration-none text-dark">
+                    <li class="list-group-item @(status == "Completed" ? selectedClass : defaultClass)">Completed</li>
+                    </a>
+                </ul>
                 </div>
                 <div class="col-6 text-end">
                     <a asp-controller="Todo" asp-action="Create" class="btn btn-primary">

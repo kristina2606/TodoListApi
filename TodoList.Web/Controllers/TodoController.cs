@@ -4,6 +4,7 @@ using TodoList.Application.Models;
 using TodoList.Web.Models;
 using TodoList.Application.Enums;
 using TodoList.Application.Exeptions;
+using TodoList.Models.Enum;
 
 namespace TodoList.Web.Controllers
 {
@@ -17,7 +18,7 @@ namespace TodoList.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(FilterStatus status = FilterStatus.Active)
+        public async Task<IActionResult> Index(FilterStatus status)
         {
             var todosFromDb = await _todoService.GetTodosAsync(status);
 
@@ -47,21 +48,30 @@ namespace TodoList.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int todoId)
         {
-            if (todoId == 0)
+            try
             {
-                return NotFound();
+                if (todoId == 0)
+                {
+                    return NotFound();
+                }
+
+                var todo = await _todoService.GetTodoAsync(todoId) ?? throw new NotFoundException("Todo item not found.");
+
+                var todoVM = new TodoDetailedViewModel
+                {
+                    Id = todo.Id,
+                    Title = todo.Title,
+                    Description = todo.Description
+                };
+
+                return View(todoVM);
+            }
+            catch (NotFoundException ex)
+            {
+                TempData["error"] = ex.Message;
+                return RedirectToAction("Index");
             }
 
-            var todo = await _todoService.GetTodoAsync(todoId) ?? throw new NotFoundException("Todo item not found.");
-          
-            var todoVM = new TodoDetailedViewModel
-            {
-                Id = todo.Id,
-                Title = todo.Title,
-                Description = todo.Description
-            };
-
-            return View(todoVM);
         }
 
         [HttpPost]
@@ -94,7 +104,7 @@ namespace TodoList.Web.Controllers
             }
 
             await _todoService.UpdateAsync(request.TodoId, request.Status);
-            TempData["success"] = $"Task has been moved to '{request.Status}'.";
+            TempData["success"] = $"Task has been moved to '{(request.Status == Status.InProgress ? "In Progress" : request.Status.ToString())}'.";
 
             return RedirectToAction("Index");
         }
