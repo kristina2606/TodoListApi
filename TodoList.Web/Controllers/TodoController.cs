@@ -48,8 +48,6 @@ namespace TodoList.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(int todoId)
         {
-            try
-            {
                 if (todoId == 0)
                 {
                     return NotFound();
@@ -63,15 +61,7 @@ namespace TodoList.Web.Controllers
                     Title = todo.Title,
                     Description = todo.Description
                 };
-
                 return View(todoVM);
-            }
-            catch (NotFoundException ex)
-            {
-                TempData["error"] = ex.Message;
-                return RedirectToAction("Index");
-            }
-
         }
 
         [HttpPost]

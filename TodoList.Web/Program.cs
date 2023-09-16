@@ -18,6 +18,7 @@ builder.Services.AddScoped<ICurrentUser, CurrentUserProvider>();
 builder.Services.AddTransient<ITodoService, TodoService>();
 
 var app = builder.Build();
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
