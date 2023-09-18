@@ -1,18 +1,25 @@
-﻿using TodoList.Models.Enum;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Reflection;
 
 namespace TodoList.Web.ExtensionMethods
 {
     public static class StatusDisplay
     {
-        public static string ToDisplayName(this Status status)
+        public static string ToDisplayName(this Enum enumValue)
         {
-            return status switch
+            var type = enumValue.GetType();
+
+            var members = type.GetMember(enumValue.ToString()).FirstOrDefault();
+            if (members != null)
             {
-                Status.Completed => "Completed",
-                Status.InProgress => "In Progress",
-                Status.Todo => "Todo",
-                _ => status.ToString(),
-            };
+                var attribute = members.GetCustomAttribute<DisplayAttribute>();
+                if (attribute != null)
+                {
+                    return attribute.Name;
+                }
+            }
+
+            return enumValue.ToString();
         }
     }
 }
