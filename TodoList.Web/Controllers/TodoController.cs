@@ -3,8 +3,7 @@ using TodoList.Application.Services;
 using TodoList.Application.Models;
 using TodoList.Web.Models;
 using TodoList.Application.Enums;
-using TodoList.Application.Exeptions;
-using TodoList.Models.Enum;
+using TodoList.Web.ExtensionMethods;
 
 namespace TodoList.Web.Controllers
 {
@@ -53,7 +52,7 @@ namespace TodoList.Web.Controllers
                 return NotFound();
             }
 
-            var todo = await _todoService.GetTodoAsync(todoId) ?? throw new NotFoundException("Todo item not found.");
+            var todo = await _todoService.GetTodoAsync(todoId);
 
             var todoVM = new TodoDetailedViewModel
             {
@@ -61,6 +60,7 @@ namespace TodoList.Web.Controllers
                 Title = todo.Title,
                 Description = todo.Description
             };
+
             return View(todoVM);
         }
 
@@ -94,7 +94,7 @@ namespace TodoList.Web.Controllers
             }
 
             await _todoService.UpdateAsync(request.TodoId, request.Status);
-            TempData["success"] = $"Task has been moved to '{GetStatusName(request.Status)}'.";
+            TempData["success"] = $"Task has been moved to '{request.Status.ToDisplayName()}'.";
 
             return RedirectToAction("Index");
         }
@@ -112,17 +112,6 @@ namespace TodoList.Web.Controllers
             TempData["success"] = "Task deleted successfully";
 
             return RedirectToAction("Index");
-        }
-
-        private static string GetStatusName(Status status)
-        {
-            return status switch
-            {
-                Status.Completed => "Completed",
-                Status.InProgress => "In Progress",
-                Status.Todo => "Todo",
-                _ => status.ToString(),
-            };
         }
     }
 }

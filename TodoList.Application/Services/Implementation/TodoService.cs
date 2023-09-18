@@ -30,7 +30,7 @@ namespace TodoList.Application.Services.Implementation
                 Description = todo.Description,
                 Status = Status.Todo,
                 UserId = _currentUser.Id,
-                CreatedDate = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             await _todoRepository.AddAsync(newTodo);

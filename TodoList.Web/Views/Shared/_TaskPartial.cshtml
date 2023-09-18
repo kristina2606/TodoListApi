@@ -14,16 +14,16 @@
         <div class="dropdown">
             <form method="post" asp-controller="Todo" asp-action="UpdateStatus">
                 <select asp-for="Status" class="btn @(GetStatusColor()) dropdown-toggle" asp-items="Html.GetEnumSelectList<Status>()" onchange="this.form.submit()">
-                    <option hidden>@Model.Status</option>
+                    <option hidden>@Model.Status.ToDisplayName()</option>
                 </select>
                 <input type="hidden" name="todoId" value="@Model.Id" />
             </form>
         </div>
     </td>
     <td class="text-end bg-light-subtle text-body-tertiary">
-        <em style="font-size:14px;">@Model.CreatedDate.ToShortTimeString()</em>
+        <em style="font-size:14px;">@Model.CreatedAt.ToShortTimeString()</em>
         <br />
-        <em style="font-size:14px">@Model.CreatedDate.ToShortDateString()</em>
+        <em style="font-size:14px">@Model.CreatedAt.ToShortDateString()</em>
     </td>
 </tr>
 <tr class="border-bottom"></tr>
