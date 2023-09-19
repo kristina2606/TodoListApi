@@ -1,0 +1,11 @@
+﻿@model Exception
+
+<div class="container text-center mt-5">
+    <div class="error-icon">
+        <i class="bi bi-emoji-frown" style="font-size: 4rem;"></i>
+    </div>
+    <div class="error-message" style="font-size: 2rem;">
+        @Model.Message
+    </div>
+    <a asp-action="Index" asp-controller="Todo" class="btn btn-primary btn-lg mt-3">Go back</a>
+</div>

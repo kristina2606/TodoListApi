@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TodoList.Application.Models;
 using TodoList.Application.Services;
-using TodoList.Models;
-using TodoList.Models.Enum;
+using TodoList.Application.Models;
+using TodoList.Web.Models;
+using TodoList.Application.Enums;
+using TodoList.Application.ExtensionMethods;
 
-namespace Todo_List.Controllers
+namespace TodoList.Web.Controllers
 {
     [Authorize]
     public class TodoController : Controller
@@ -20,66 +21,40 @@ namespace Todo_List.Controllers
         {
             var todosFromDb = await _todoService.GetTodosAsync();
 
-            switch (status)
-            {
-                case "Todo":
-                    todosFromDb = todosFromDb.Where(x => x.Status == Status.Todo);
-                    break;
-                case "InProcess":
-                    todosFromDb = todosFromDb.Where(x => x.Status == Status.InProgress);
-                    break;
-                case "Completed":
-                    todosFromDb = todosFromDb.Where(x => x.Status == Status.Completed);
-                    break;
-                default:
-                    todosFromDb = todosFromDb.Where(x => x.Status != Status.Completed);
-                    break;
-            }
-            return View(todosFromDb);
+        [HttpGet]
+        public async Task<IActionResult> Index(FilterStatus status)
+        {
+            var todo = await _todoService.GetTodosAsync(status);
+
+            return View(todo);
         }
 
-        public async Task<IActionResult> Upsert(int todoId)
+        [HttpGet]
+        public async Task<IActionResult> Create()
         {
-            var task = new Todo();
-
-            if (todoId == 0)
-            {
-                return View(task);
-            }
-
-            var todoFromDb = await _todoService.GetTodoAsync(todoId);
-            if (todoFromDb == null)
-            {
-                return NotFound();
-            }
+            return View(new CreateTodoCommand());
+        }
 
             return View(todoFromDb);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Upsert(UpdateTodoCommand todo)
+        public async Task<IActionResult> Create(CreateTodoCommand todo)
         {
-            var message = "Task added successfully";
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                if (todo.Id == 0)
-                {
-                    await _todoService.CreateAsync(todo);
-                }
-                else
-                {
-                    await _todoService.UpdateAsync(todo);
-                    message = "Task edited successfully";
-                }
+                return View(todo);
+            }
 
-                TempData["success"] = message;
+            await _todoService.CreateAsync(todo);
+            TempData["success"] = "Task added successfully";
 
             }
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> UpdateStatus(int todoId, Status status)
+        [HttpGet]
+        public async Task<IActionResult> Update(int todoId)
         {
             var message = "Task is already completed.";
 
@@ -90,40 +65,60 @@ namespace Todo_List.Controllers
 
             var todo = await _todoService.GetTodoAsync(todoId);
 
-            if (todo == null)
+            var todoVM = new TodoDetailedViewModel
             {
-                return NotFound();
+                Id = todo.Id,
+                Title = todo.Title,
+                Description = todo.Description
+            };
+
+            return View(todoVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(TodoDetailedViewModel todoVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(todoVM);
             }
 
-            Status nextStatus = Status.Completed;
-            switch (todo.Status)
+            var todo = new UpdateTodoCommand
             {
-                case Status.Todo:
-                    nextStatus = Status.InProgress;
-                    message = "Task has been moved to 'In Progress'.";
-                    break;
-                case Status.InProgress:
-                    message = "Task has been moved to 'Completed'.";
-                    break;
-                case Status.Completed:
-                    break;
-                default:
-                    TempData["error"] = "Invalid task status.";
-                    return RedirectToAction("Index");
-            }
+                Id = todoVM.Id,
+                Title = todoVM.Title,
+                Description = todoVM.Description
+            };
 
-            TempData["success"] = message;
-            await _todoService.UpdateAsync(todoId, nextStatus);
+            await _todoService.UpdateAsync(todo);
+            TempData["success"] = "Task edited successfully";
 
             return RedirectToAction("Index");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(UpdateStatusRequest request)
+        {
+            if (request.TodoId == 0)
+            {
+                return NotFound();
+            }
+
+            await _todoService.UpdateAsync(request.TodoId, request.Status);
+            TempData["success"] = $"Task has been moved to '{request.Status.ToDisplayName()}'.";
+
+            return RedirectToAction("Index");
+        }
+
+
+        [HttpPost]
         public async Task<IActionResult> Delete(int todoId)
         {
             if (todoId == 0)
             {
                 return NotFound();
             }
+
             await _todoService.DeleteAsync(todoId);
             TempData["success"] = "Task deleted successfully";
 

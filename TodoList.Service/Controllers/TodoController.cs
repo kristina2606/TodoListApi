@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TodoList.Application.Enums;
 using TodoList.Application.Models;
 using TodoList.Application.Services;
 using TodoList.Models;
@@ -20,7 +21,7 @@ namespace TodoList.Service.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Todo>>> GetTodosAsync()
         {
-            var todo = await _todoService.GetTodosAsync();
+            var todo = await _todoService.GetTodosAsync(FilterStatus.All);
             return Ok(todo);
         }
 
@@ -32,7 +33,7 @@ namespace TodoList.Service.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateAsync([FromBody] UpdateTodoCommand todo)
+        public async Task<ActionResult> CreateAsync([FromBody] CreateTodoCommand todo)
         {
             if (todo == null)
             {
@@ -40,7 +41,7 @@ namespace TodoList.Service.Controllers
             }
 
             var newTodoId = await _todoService.CreateAsync(todo);
-            return CreatedAtAction("GetTodo", new { id = newTodoId }, todo);
+            return CreatedAtAction("GetTodo", new {id = newTodoId}, todo);
         }
 
         [HttpDelete("{id:int}")]

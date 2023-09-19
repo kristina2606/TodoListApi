@@ -1,4 +1,6 @@
-﻿using TodoList.Application.Exeptions;
+﻿using TodoList.Application.Enums;
+using TodoList.Application.Exeptions;
+using TodoList.Application.Extensions;
 using TodoList.Application.Models;
 using TodoList.Application.Repositories;
 using TodoList.Models;
@@ -18,18 +20,17 @@ namespace TodoList.Application.Services.Implementation
             _currentUser = currentUser;
             _unitOfWork = unitOfWork;
         }
-        public async Task<int> CreateAsync(UpdateTodoCommand todo)
+        public async Task<int> CreateAsync(CreateTodoCommand todo)
         {
             ArgumentNullException.ThrowIfNull(todo);
 
             var newTodo = new Todo
             {
-                Id = todo.Id,
                 Title = todo.Title,
                 Description = todo.Description,
                 Status = Status.Todo,
                 UserId = _currentUser.Id,
-                CreatedDate = DateTime.UtcNow
+                CreatedAt = DateTime.UtcNow
             };
 
             await _todoRepository.AddAsync(newTodo);
@@ -61,10 +62,13 @@ namespace TodoList.Application.Services.Implementation
             return todo;
         }
 
-        public async Task<IEnumerable<Todo>> GetTodosAsync()
+        public async Task<IEnumerable<Todo>> GetTodosAsync(FilterStatus status)
         {
-            return await _todoRepository.GetAllAsync(_currentUser.Id);
+            var statuses = status.ToTodoStatus();
+
+            return await _todoRepository.GetAllAsync(_currentUser.Id, statuses);
         }
+
 
         public async Task UpdateAsync(UpdateTodoCommand todo)
         {
