@@ -1,0 +1,48 @@
+﻿@model Todo
+
+<tr class="table-light">
+    <td class="bg-light-subtle">
+        <a asp-controller="Todo" asp-action="Update" asp-route-todoId="@Model.Id" class="text-decoration-none">
+            <strong style="font-size:18px"> @Model.Title </strong>
+        </a>
+        <br />
+        <em class="text-secondary">
+            @(Model.Description.Length > 40 ? Model.Description.Substring(0, 40) + "..." : Model.Description)
+        </em>
+    </td>
+    <td class="bg-light-subtle text-center">
+        <div class="dropdown">
+            <form method="post" asp-controller="Todo" asp-action="UpdateStatus">
+                <select asp-for="Status" class="btn @(GetStatusColor()) dropdown-toggle" asp-items="Html.GetEnumSelectList<Status>()" onchange="this.form.submit()">
+                    <option hidden>@Model.Status.ToDisplayName()</option>
+                </select>
+                <input type="hidden" name="todoId" value="@Model.Id" />
+            </form>
+        </div>
+    </td>
+    <td class="text-end bg-light-subtle text-body-tertiary">
+        <em style="font-size:14px;">@Model.CreatedAt.ToShortTimeString()</em>
+        <br />
+        <em style="font-size:14px">@Model.CreatedAt.ToShortDateString()</em>
+    </td>
+</tr>
+<tr class="border-bottom"></tr>
+
+
+@functions {
+    public string GetStatusColor()
+    {
+        switch (@Model.Status)
+        {
+            case Status.Completed:
+                return "btn-outline-success";
+            case Status.InProgress:
+                return "btn-outline-warning";
+            case Status.Todo:
+                return "btn-outline-info";
+            default:
+                return "btn-outline-secondary";
+        }
+    }
+}
+
