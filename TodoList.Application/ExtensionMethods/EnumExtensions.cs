@@ -1,15 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace TodoList.Web.ExtensionMethods
+namespace TodoList.Application.ExtensionMethods
 {
-    public static class StatusDisplay
+    public static class EnumExtensions
     {
         public static string ToDisplayName(this Enum enumValue)
         {
             var type = enumValue.GetType();
+            var stringValue = enumValue.ToString();
 
-            var members = type.GetMember(enumValue.ToString()).FirstOrDefault();
+            var members = type.GetMember(stringValue).FirstOrDefault();
             if (members != null)
             {
                 var attribute = members.GetCustomAttribute<DisplayAttribute>();
@@ -19,7 +20,7 @@ namespace TodoList.Web.ExtensionMethods
                 }
             }
 
-            return enumValue.ToString();
+            return stringValue;
         }
     }
 }
