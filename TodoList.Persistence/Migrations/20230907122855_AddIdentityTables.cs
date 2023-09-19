@@ -159,42 +159,42 @@ namespace TodoList.Persistence.Migrations
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 7, 14, 28, 55, 113, DateTimeKind.Local).AddTicks(6525));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 2,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 8, 30, 14, 28, 55, 113, DateTimeKind.Local).AddTicks(6598));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 3,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 7, 7, 14, 28, 55, 113, DateTimeKind.Local).AddTicks(6605));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 4,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 7, 13, 8, 55, 113, DateTimeKind.Local).AddTicks(6613));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 5,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 5, 14, 28, 55, 113, DateTimeKind.Local).AddTicks(6617));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 6,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 4, 14, 28, 55, 113, DateTimeKind.Local).AddTicks(6620));
 
             migrationBuilder.CreateIndex(
@@ -265,42 +265,42 @@ namespace TodoList.Persistence.Migrations
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 8, 16, 16, 3, 36, 105, DateTimeKind.Local).AddTicks(9150));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 2,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 8, 8, 16, 3, 36, 105, DateTimeKind.Local).AddTicks(9218));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 3,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 6, 16, 16, 3, 36, 105, DateTimeKind.Local).AddTicks(9223));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 4,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 8, 16, 14, 43, 36, 105, DateTimeKind.Local).AddTicks(9229));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 5,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 8, 14, 16, 3, 36, 105, DateTimeKind.Local).AddTicks(9233));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 6,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 8, 13, 16, 3, 36, 105, DateTimeKind.Local).AddTicks(9259));
         }
     }

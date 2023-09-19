@@ -17,10 +17,7 @@ namespace TodoList.Web.Controllers
         {
             _todoService = todoService;
         }
-        public async Task<IActionResult> Index(string? status)
-        {
-            var todosFromDb = await _todoService.GetTodosAsync();
-
+       
         [HttpGet]
         public async Task<IActionResult> Index(FilterStatus status)
         {
@@ -35,9 +32,6 @@ namespace TodoList.Web.Controllers
             return View(new CreateTodoCommand());
         }
 
-            return View(todoFromDb);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create(CreateTodoCommand todo)
         {
@@ -49,15 +43,12 @@ namespace TodoList.Web.Controllers
             await _todoService.CreateAsync(todo);
             TempData["success"] = "Task added successfully";
 
-            }
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public async Task<IActionResult> Update(int todoId)
         {
-            var message = "Task is already completed.";
-
             if (todoId == 0)
             {
                 return NotFound();

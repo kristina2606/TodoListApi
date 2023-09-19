@@ -1,4 +1,4 @@
-﻿namespace TodoList.Web
+﻿namespace TodoList.Web.Models
 {
     public class GoogleSetting
     {

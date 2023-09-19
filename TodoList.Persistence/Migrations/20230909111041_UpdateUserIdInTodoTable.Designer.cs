@@ -235,7 +235,7 @@ namespace TodoList.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -260,7 +260,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedDate = new DateTime(2023, 9, 9, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4274),
+                            CreatedAt = new DateTime(2023, 9, 9, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4274),
                             Description = "Make yourself a balanced breakfast including proteins, carbohydrates, and vitamins. For instance, an omelette with vegetables and a slice of bread.",
                             Status = 1,
                             Title = "Prepare Breakfast",
@@ -269,7 +269,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedDate = new DateTime(2023, 9, 1, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4407),
+                            CreatedAt = new DateTime(2023, 9, 1, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4407),
                             Description = "Dedicate some time to physical exercises. It will help awaken your body, improve your mood, and get you ready for the day.",
                             Status = 2,
                             Title = "Morning Workout",
@@ -278,7 +278,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedDate = new DateTime(2023, 7, 9, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4422),
+                            CreatedAt = new DateTime(2023, 7, 9, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4422),
                             Description = "Check your email and respond to important messages. This will help you stay connected with colleagues, friends, and partners",
                             Status = 3,
                             Title = "Respond to Emails",
@@ -287,7 +287,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedDate = new DateTime(2023, 9, 9, 11, 50, 41, 383, DateTimeKind.Local).AddTicks(4438),
+                            CreatedAt = new DateTime(2023, 9, 9, 11, 50, 41, 383, DateTimeKind.Local).AddTicks(4438),
                             Description = "Create a task list for the day and prioritize them. This will help you organize your work and achieve your goals.",
                             Status = 1,
                             Title = "Plan Your Work Day",
@@ -296,7 +296,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 5,
-                            CreatedDate = new DateTime(2023, 9, 7, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4447),
+                            CreatedAt = new DateTime(2023, 9, 7, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4447),
                             Description = "Engage in your main tasks according to the list. Avoid distractions and try to focus on one task at a time.",
                             Status = 1,
                             Title = "Productive Work Time",
@@ -305,7 +305,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedDate = new DateTime(2023, 9, 6, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4454),
+                            CreatedAt = new DateTime(2023, 9, 6, 13, 10, 41, 383, DateTimeKind.Local).AddTicks(4454),
                             Description = "Take a break and have lunch. Consider healthy eating, including vegetables, proteins, and healthy fats.",
                             Status = 1,
                             Title = "Lunch Break",

@@ -12,7 +12,7 @@ namespace TodoList.Persistence.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.RenameColumn(
-                name: "CreatedDate",
+                name: "CreatedAt",
                 table: "Todos",
                 newName: "CreatedAt");
 
@@ -65,48 +65,48 @@ namespace TodoList.Persistence.Migrations
             migrationBuilder.RenameColumn(
                 name: "CreatedAt",
                 table: "Todos",
-                newName: "CreatedDate");
+                newName: "CreatedAt");
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 1,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 9, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(8877));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 2,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 1, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(8997));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 3,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 7, 9, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(9005));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 4,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 9, 17, 25, 48, 221, DateTimeKind.Local).AddTicks(9015));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 5,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 7, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(9020));
 
             migrationBuilder.UpdateData(
                 table: "Todos",
                 keyColumn: "Id",
                 keyValue: 6,
-                column: "CreatedDate",
+                column: "CreatedAt",
                 value: new DateTime(2023, 9, 6, 18, 45, 48, 221, DateTimeKind.Local).AddTicks(9022));
         }
     }

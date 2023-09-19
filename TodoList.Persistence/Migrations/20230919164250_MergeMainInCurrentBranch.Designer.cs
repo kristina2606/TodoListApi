@@ -12,8 +12,8 @@ using TodoList.Persistence.Data;
 namespace TodoList.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230909112025_UpdateUserIdToStringInTodoTable")]
-    partial class UpdateUserIdToStringInTodoTable
+    [Migration("20230919164250_MergeMainInCurrentBranch")]
+    partial class MergeMainInCurrentBranch
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -261,7 +261,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2023, 9, 9, 13, 20, 25, 359, DateTimeKind.Local).AddTicks(3384),
+                            CreatedAt = new DateTime(2023, 9, 19, 18, 42, 49, 977, DateTimeKind.Local).AddTicks(9169),
                             Description = "Make yourself a balanced breakfast including proteins, carbohydrates, and vitamins. For instance, an omelette with vegetables and a slice of bread.",
                             Status = 1,
                             Title = "Prepare Breakfast",
@@ -270,7 +270,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2023, 9, 1, 13, 20, 25, 359, DateTimeKind.Local).AddTicks(3503),
+                            CreatedAt = new DateTime(2023, 9, 11, 18, 42, 49, 977, DateTimeKind.Local).AddTicks(9246),
                             Description = "Dedicate some time to physical exercises. It will help awaken your body, improve your mood, and get you ready for the day.",
                             Status = 2,
                             Title = "Morning Workout",
@@ -279,7 +279,7 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2023, 7, 9, 13, 20, 25, 359, DateTimeKind.Local).AddTicks(3512),
+                            CreatedAt = new DateTime(2023, 7, 19, 18, 42, 49, 977, DateTimeKind.Local).AddTicks(9255),
                             Description = "Check your email and respond to important messages. This will help you stay connected with colleagues, friends, and partners",
                             Status = 3,
                             Title = "Respond to Emails",
@@ -288,16 +288,16 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2023, 9, 9, 12, 0, 25, 359, DateTimeKind.Local).AddTicks(3522),
+                            CreatedAt = new DateTime(2023, 9, 19, 17, 22, 49, 977, DateTimeKind.Local).AddTicks(9264),
                             Description = "Create a task list for the day and prioritize them. This will help you organize your work and achieve your goals.",
                             Status = 1,
                             Title = "Plan Your Work Day",
-                            UserId = "99"
+                            UserId = "93"
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2023, 9, 7, 13, 20, 25, 359, DateTimeKind.Local).AddTicks(3526),
+                            CreatedAt = new DateTime(2023, 9, 17, 18, 42, 49, 977, DateTimeKind.Local).AddTicks(9269),
                             Description = "Engage in your main tasks according to the list. Avoid distractions and try to focus on one task at a time.",
                             Status = 1,
                             Title = "Productive Work Time",
@@ -306,11 +306,11 @@ namespace TodoList.Persistence.Migrations
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2023, 9, 6, 13, 20, 25, 359, DateTimeKind.Local).AddTicks(3529),
+                            CreatedAt = new DateTime(2023, 9, 16, 18, 42, 49, 977, DateTimeKind.Local).AddTicks(9375),
                             Description = "Take a break and have lunch. Consider healthy eating, including vegetables, proteins, and healthy fats.",
                             Status = 1,
                             Title = "Lunch Break",
-                            UserId = "99"
+                            UserId = "9"
                         });
                 });
 
