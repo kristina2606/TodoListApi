@@ -6,7 +6,7 @@ using TodoList.Application.Services;
 using TodoList.Application.Services.Implementation;
 using TodoList.Persistence.Data;
 using TodoList.Persistence.Repositories;
-using TodoList.Web.Models;
+using TodoList.Web.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 

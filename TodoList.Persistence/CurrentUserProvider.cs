@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using TodoList.Application;
+using TodoList.Application.Exeptions;
 
 public class CurrentUserProvider : ICurrentUser
 {
@@ -21,7 +22,7 @@ public class CurrentUserProvider : ICurrentUser
                 return userId;
             }
 
-            return string.Empty;
+            throw new NotFoundException("User ID is missing or user is not logged in.");
         }
     }
 

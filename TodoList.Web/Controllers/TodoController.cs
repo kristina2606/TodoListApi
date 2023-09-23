@@ -4,7 +4,7 @@ using TodoList.Application.Services;
 using TodoList.Application.Models;
 using TodoList.Web.Models;
 using TodoList.Application.Enums;
-using TodoList.Application.ExtensionMethods;
+using TodoList.Application.Extension;
 
 namespace TodoList.Web.Controllers
 {

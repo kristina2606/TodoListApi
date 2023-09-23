@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
-namespace TodoList.Application.ExtensionMethods
+namespace TodoList.Application.Extension
 {
     public static class EnumExtensions
     {
