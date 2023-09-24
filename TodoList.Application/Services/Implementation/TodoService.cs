@@ -1,6 +1,6 @@
 ﻿using TodoList.Application.Enums;
-using TodoList.Application.Exeptions;
-using TodoList.Application.Extension;
+using TodoList.Application.Exceptions;
+using TodoList.Application.Extensions;
 using TodoList.Application.Models;
 using TodoList.Application.Repositories;
 using TodoList.Models;

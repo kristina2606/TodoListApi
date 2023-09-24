@@ -1,7 +1,7 @@
 ﻿using TodoList.Application.Enums;
 using TodoList.Models.Enum;
 
-namespace TodoList.Application.Extension
+namespace TodoList.Application.Extensions
 {
     public static class StatusExtensions
     {

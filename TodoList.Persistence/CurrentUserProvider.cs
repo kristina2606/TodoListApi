@@ -1,44 +1,33 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using TodoList.Application;
-using TodoList.Application.Exeptions;
+using TodoList.Application.Exceptions;
+using TodoList.Models;
 
-public class CurrentUserProvider : ICurrentUser
+namespace TodoList.Persistence
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public CurrentUserProvider(IHttpContextAccessor httpContextAccessor)
+    public class CurrentUserProvider : ICurrentUser
     {
-        _httpContextAccessor = httpContextAccessor;
-    }
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public string Id
-    {
-        get
+        public CurrentUserProvider(IHttpContextAccessor httpContextAccessor)
         {
-            var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             if (userId != null)
             {
-                return userId;
+                Id = userId;
+            }
+            else
+            {
+                throw new NotFoundException("User ID is missing or user is not logged in.");
             }
 
-            throw new NotFoundException("User ID is missing or user is not logged in.");
+            Name = httpContextAccessor.HttpContext.User.Identity.Name;
+            Email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
         }
-    }
 
-    public string Name
-    {
-        get
-        {
-            return _httpContextAccessor.HttpContext.User.Identity.Name;
-        }
-    }
-
-    public string Email
-    {
-        get
-        {
-            return _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
-        }
+        public string Id { get; private set; }
+        public string Name { get; private set; }
+        public string Email { get; private set; }
     }
 }

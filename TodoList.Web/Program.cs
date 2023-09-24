@@ -4,6 +4,7 @@ using TodoList.Application;
 using TodoList.Application.Repositories;
 using TodoList.Application.Services;
 using TodoList.Application.Services.Implementation;
+using TodoList.Persistence;
 using TodoList.Persistence.Data;
 using TodoList.Persistence.Repositories;
 using TodoList.Web.Settings;
