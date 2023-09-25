@@ -20,7 +20,7 @@ namespace TodoList.Persistence.Repositories
             await _db.Todos.AddAsync(todo);
         }
 
-        public async Task<IEnumerable<Todo>> GetAllAsync(int userId, Status[] statuses)
+        public async Task<IEnumerable<Todo>> GetAllAsync(string userId, Status[] statuses)
         {
             IQueryable<Todo> query = _db.Todos.Where(x => x.UserId == userId);
             if (statuses.Length != 0)

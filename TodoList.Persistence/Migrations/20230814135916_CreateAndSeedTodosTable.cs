@@ -21,7 +21,7 @@ namespace TodoList.Persistence.Migrations
                     Title = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -30,7 +30,7 @@ namespace TodoList.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 table: "Todos",
-                columns: new[] { "Id", "CreatedDate", "Description", "Status", "Title" },
+                columns: new[] { "Id", "CreatedAt", "Description", "Status", "Title" },
                 values: new object[,]
                 {
                     { 1, new DateTime(2023, 8, 14, 15, 59, 16, 11, DateTimeKind.Local).AddTicks(966), "Make yourself a balanced breakfast including proteins, carbohydrates, and vitamins. For instance, an omelette with vegetables and a slice of bread.", 1, "Prepare Breakfast" },

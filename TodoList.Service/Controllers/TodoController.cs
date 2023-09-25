@@ -40,8 +40,8 @@ namespace TodoList.Service.Controllers
                 return BadRequest();
             }
 
-            var newTodoId = await _todoService.CreateAsync(todo);
-            return CreatedAtAction("GetTodo", new {id = newTodoId}, todo);
+            var id = await _todoService.CreateAsync(todo);
+            return CreatedAtAction("GetTodo", new { id = id }, todo);
         }
 
         [HttpDelete("{id:int}")]

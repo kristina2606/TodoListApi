@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TodoList.Application.Exeptions;
+using TodoList.Application.Exceptions;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace TodoList.Service.Middleware

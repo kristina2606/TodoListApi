@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TodoList.Application.Services;
 using TodoList.Application.Models;
 using TodoList.Web.Models;
 using TodoList.Application.Enums;
-using TodoList.Application.ExtensionMethods;
+using TodoList.Application.Extensions;
 
 namespace TodoList.Web.Controllers
 {
+    [Authorize]
     public class TodoController : Controller
     {
         private readonly ITodoService _todoService;
@@ -15,7 +17,7 @@ namespace TodoList.Web.Controllers
         {
             _todoService = todoService;
         }
-
+       
         [HttpGet]
         public async Task<IActionResult> Index(FilterStatus status)
         {

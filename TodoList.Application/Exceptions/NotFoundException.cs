@@ -1,4 +1,4 @@
-﻿namespace TodoList.Application.Exeptions
+﻿namespace TodoList.Application.Exceptions
 {
     public class NotFoundException : Exception
     {

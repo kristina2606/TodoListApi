@@ -3,6 +3,7 @@ using TodoList.Application;
 using TodoList.Application.Repositories;
 using TodoList.Application.Services;
 using TodoList.Application.Services.Implementation;
+using TodoList.Persistence;
 using TodoList.Persistence.Data;
 using TodoList.Persistence.Repositories;
 using TodoList.Service.Middleware;
@@ -24,7 +25,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 app.UseMiddleware<GlobalExceptionMiddleware>();
- // Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
