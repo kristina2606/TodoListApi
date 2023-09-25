@@ -12,15 +12,8 @@ namespace TodoList.Persistence
 
         public CurrentUserProvider(IHttpContextAccessor httpContextAccessor)
         {
-            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (userId != null)
-            {
-                Id = userId;
-            }
-            else
-            {
-                throw new NotFoundException("User ID is missing or user is not logged in.");
-            }
+            Id = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
+                    ?? throw new NullReferenceException("User ID is missing or user is not logged in.");
 
             Name = httpContextAccessor.HttpContext.User.Identity.Name;
             Email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
