@@ -26,7 +26,6 @@ fi
 dotnet --version
 
 # Going to the TodoListApi directory
-
 cd TodoListApi
 
 # Restoring .NET dependencies
