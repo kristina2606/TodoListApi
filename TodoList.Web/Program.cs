@@ -41,12 +41,6 @@ builder.Services.AddScoped<ITodoRepository, TodoRepository>();
 builder.Services.AddScoped<ICurrentUser>(CurrentUserProvider.Resolve);
 builder.Services.AddTransient<ITodoService, TodoService>();
 
-var aspNetCoreUrls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
-if (!string.IsNullOrEmpty(aspNetCoreUrls))
-{
-    builder.WebHost.UseUrls(aspNetCoreUrls);
-}
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
