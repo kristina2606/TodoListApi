@@ -2,6 +2,7 @@
 
 # Defining variables
 ConnectionStrings=""
+GoogleClientId=""
 GoogleClientSecret=""
 user=""
 working_dir=""
