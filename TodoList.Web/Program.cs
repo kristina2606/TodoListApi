@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TodoList.Application;
@@ -24,6 +25,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
+
 builder.Services.AddAuthentication().AddGoogle(options =>
 {
     var googleSettings = builder.Configuration.GetSection("Google").Get<GoogleSetting>();
@@ -31,10 +33,12 @@ builder.Services.AddAuthentication().AddGoogle(options =>
     options.ClientSecret = googleSettings.ClientSecret;
     options.CallbackPath = "/signin-google";
 });
+
+
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
-builder.Services.AddScoped<ICurrentUser, CurrentUserProvider>();
+builder.Services.AddScoped<ICurrentUser>(CurrentUserProvider.Resolve);
 builder.Services.AddTransient<ITodoService, TodoService>();
 
 var app = builder.Build();
@@ -51,6 +55,12 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();

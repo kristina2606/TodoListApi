@@ -1,26 +1,32 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 using TodoList.Application;
-using TodoList.Application.Exceptions;
-using TodoList.Models;
 
 namespace TodoList.Persistence
 {
     public class CurrentUserProvider : ICurrentUser
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        public string? Id { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
 
-        public CurrentUserProvider(IHttpContextAccessor httpContextAccessor)
+        public static CurrentUserProvider? Resolve(IServiceProvider sp)
         {
-            Id = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                    ?? throw new NullReferenceException("User ID is missing or user is not logged in.");
+            var httpContext = sp.GetRequiredService<IHttpContextAccessor>().HttpContext;
+            var userId = httpContext?.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return new CurrentUserProvider(); 
+            }
 
-            Name = httpContextAccessor.HttpContext.User.Identity.Name;
-            Email = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+
+            return new CurrentUserProvider
+            {
+                Id = userId,
+                Name = httpContext.User?.Identity.Name ?? string.Empty,
+                Email = httpContext.User?.FindFirst(ClaimTypes.Email)?.Value ?? string.Empty,
+            };
         }
-
-        public string Id { get; private set; }
-        public string Name { get; private set; }
-        public string Email { get; private set; }
     }
 }
