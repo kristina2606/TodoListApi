@@ -15,13 +15,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITodoRepository, TodoRepository>();
-builder.Services.AddScoped<ICurrentUser, CurrentUserProvider>();
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddTransient<ITodoService, TodoService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowMyApp",
+        builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
 
 var app = builder.Build();
 app.UseMiddleware<GlobalExceptionMiddleware>();
@@ -33,9 +40,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
+app.UseCors("AllowMyApp");
 app.MapControllers();
 
 app.Run();
