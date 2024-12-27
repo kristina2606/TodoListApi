@@ -25,7 +25,7 @@ namespace TodoList.Service.Controllers
             return Ok(todo);
         }
 
-        [HttpGet("{id:int}", Name = "GetTodo")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Todo>> GetTodoAsync(int id)
         {
             var todo = await _todoService.GetTodoAsync(id);
@@ -35,13 +35,15 @@ namespace TodoList.Service.Controllers
         [HttpPost]
         public async Task<ActionResult> CreateAsync([FromBody] CreateTodoCommand todo)
         {
-            if (todo == null)
+            if (string.IsNullOrEmpty(todo.Title))
             {
                 return BadRequest();
             }
 
             var id = await _todoService.CreateAsync(todo);
-            return CreatedAtAction("GetTodo", new { id = id }, todo);
+            var createdTodo = await _todoService.GetTodoAsync(id);
+
+            return Ok(createdTodo);
         }
 
         [HttpDelete("{id:int}")]
